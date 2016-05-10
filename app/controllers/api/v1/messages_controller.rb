@@ -4,9 +4,7 @@ class Api::V1::MessagesController < ApplicationController
   # GET /api/v1/messages
   # GET /api/v1/messages.json
   def index
-    @api_v1_messages = Api::V1::Message.all
-
-    render json: @api_v1_messages
+    render json: Api::V1::Message.all
   end
 
   # GET /api/v1/messages/1
@@ -54,6 +52,6 @@ class Api::V1::MessagesController < ApplicationController
     end
 
     def api_v1_message_params
-      params.require(:api_v1_message).permit(:sender_id, :recepient_id, :content)
+      params.permit(:sender_id, :recepient_id, :content)
     end
 end
