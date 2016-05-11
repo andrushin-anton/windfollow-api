@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20160510214808) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "api_v1_messages", force: :cascade do |t|
     t.integer  "sender_id"
     t.integer  "recepient_id"
