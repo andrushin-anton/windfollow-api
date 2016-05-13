@@ -1,5 +1,6 @@
 class Api::V1::MessagesController < ApplicationController
   before_action :set_api_v1_message, only: [:show, :update, :destroy]
+  before_filter :authenticate_user!
 
   # GET /api/v1/messages
   # GET /api/v1/messages.json
