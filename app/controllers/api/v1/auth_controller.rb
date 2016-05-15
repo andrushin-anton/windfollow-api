@@ -8,7 +8,7 @@ class Api::V1::AuthController < ApplicationController
   		# Create a new token
   		render json: @user.generate_token
   	elsif @user.nil?
-  		render json: '{"error":"invalid credentials"}', status: 401
+  		render json: { error: 'Invalid credentials' }, status: 401
   	else	
   		render json: @user.errors, status: :unprocessable_entity
   	end

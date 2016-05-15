@@ -2,11 +2,11 @@ require 'digest/md5'
 require "base64"
 
 class Api::V1::User < ActiveRecord::Base
-	validates :email, presence: true, length: { maximum: 20 }, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }
-	validates :password, presence: true, length: { in: 6..20 }
+	validates :email, presence: true, length: { maximum: 70 }, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }
+	validates :password, presence: true, length: { in: 6..70 }
 	validates :email, :uniqueness => true, on: [:save]
-	validates :first_name, presence: true, length: { maximum: 20 }, on: [:save]
-	validates :last_name, presence: true, length: { maximum: 20 }, on: [:save]
+	validates :first_name, presence: true, length: { maximum: 30 }, on: [:save]
+	validates :last_name, presence: true, length: { maximum: 30 }, on: [:save]
 
 	before_save :default_values
 	before_save :encrypt_password
@@ -42,5 +42,12 @@ class Api::V1::User < ActiveRecord::Base
 
   def encrypt_password
   	self.password = Digest::MD5.hexdigest(self.password)
+  end
+
+  def password_refresh
+    new_password = rand(0..9).to_s+''+rand(0..9).to_s+''+rand(0..9).to_s+''+rand(0..9).to_s+''+rand(0..9).to_s+''+rand(0..9).to_s+''
+    self.password = new_password
+    encrypt_password
+    return new_password
   end
 end

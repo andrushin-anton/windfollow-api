@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   namespace :api do
   namespace :v1 do
     post 'auth/token'
+    post 'users/password_refresh'
     end
   end
 
