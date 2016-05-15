@@ -35,7 +35,7 @@ class Api::V1::UsersController < ApplicationController
       new_password = @user.password_refresh
       if @user.save
         # send new password to user
-        Api::V1::WindMailer.password_refresh(@user, new_password).deliver
+        SendEmailJob.set(wait: 10.seconds).perform_later(@user, new_password)
 
         render json: { error: 'password has been refreshed' }, status: 200
       else

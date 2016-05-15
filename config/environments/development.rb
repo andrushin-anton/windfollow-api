@@ -39,6 +39,9 @@ Rails.application.configure do
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 
+  # To run worker: bundle exec rake jobs:work
+  config.active_job.queue_adapter = :delayed_job
+
   config.action_mailer.smtp_settings = {
       :address              => "smtp.gmail.com",
       :port                 =>  587,
