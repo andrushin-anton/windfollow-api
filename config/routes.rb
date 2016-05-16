@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   namespace :v1 do
     post 'auth/token'
     post 'users/password_refresh'
+    get  'messages/:id/recepient' => 'messages#recepient'
     end
   end
 
