@@ -46,8 +46,8 @@ Rails.application.configure do
       :address              => "smtp.gmail.com",
       :port                 =>  587,
       :domain               => "gmail.com",
-      :user_name            => "",
-      :password             => "",
+      :user_name            => "hello@windfollow.com",
+      :password             => "2436003Aa",
       :authentication       => :login,
       :enable_starttls_auto => true
   }
