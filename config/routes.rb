@@ -5,8 +5,9 @@ Rails.application.routes.draw do
     post 'auth/token'
     post 'users/password_refresh'
     post 'sport_user' => 'sport_user#create'
-    delete 'sport_user/:sport_id' => 'sport_user#destroy'
     get  'messages/:id/recepient' => 'messages#recepient'
+    get  'city/:input' => 'city#autocomplete'
+    delete 'sport_user/:sport_id' => 'sport_user#destroy'
     end
   end
 

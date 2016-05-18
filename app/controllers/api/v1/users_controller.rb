@@ -49,13 +49,14 @@ class Api::V1::UsersController < ApplicationController
   # PATCH/PUT /api/v1/users/1
   # PATCH/PUT /api/v1/users/1.json
   def update
-    @api_v1_user = Api::V1::User.find(params[:id])
+    head :no_content
+    # @api_v1_user = Api::V1::User.find(params[:id])
 
-    if @api_v1_user.update(api_v1_user_params)
-      head :no_content
-    else
-      render json: @api_v1_user.errors, status: :unprocessable_entity
-    end
+    # if @api_v1_user.update(api_v1_user_params)
+    #   head :no_content
+    # else
+    #   render json: @api_v1_user.errors, status: :unprocessable_entity
+    # end
   end
 
   # DELETE /api/v1/users/1
