@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160515221549) do
+ActiveRecord::Schema.define(version: 20160518195138) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,19 @@ ActiveRecord::Schema.define(version: 20160515221549) do
     t.datetime "updated_at",   null: false
   end
 
+  create_table "api_v1_sport_users", force: :cascade do |t|
+    t.integer  "sport_id"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "api_v1_sports", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "api_v1_users", force: :cascade do |t|
     t.string   "email"
     t.string   "password"
@@ -32,6 +45,14 @@ ActiveRecord::Schema.define(version: 20160515221549) do
     t.integer  "rating"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "image"
+    t.string   "about"
+    t.date     "birth_date"
+    t.string   "gender"
+    t.string   "phone"
+    t.string   "web_site"
+    t.string   "country"
+    t.string   "city"
   end
 
   create_table "delayed_jobs", force: :cascade do |t|

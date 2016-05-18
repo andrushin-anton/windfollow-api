@@ -11,6 +11,9 @@ class Api::V1::User < ActiveRecord::Base
 	before_save :default_values
 	before_save :encrypt_password
 
+  has_many :sport_users
+  has_many :sports, through: :sport_users
+
 	#scope :authorize, -> (email, password) { where('email =? and password =?', email, Digest::MD5.hexdigest(password)) }
   
   def authorize(email, password)

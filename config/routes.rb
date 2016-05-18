@@ -1,8 +1,11 @@
 Rails.application.routes.draw do
+  namespace :api do  namespace :v1 do resources :sports, except: [:new, :edit] end end
   namespace :api do
   namespace :v1 do
     post 'auth/token'
     post 'users/password_refresh'
+    post 'sport_user' => 'sport_user#create'
+    delete 'sport_user/:sport_id' => 'sport_user#destroy'
     get  'messages/:id/recepient' => 'messages#recepient'
     end
   end
