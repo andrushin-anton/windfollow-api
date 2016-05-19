@@ -19,6 +19,6 @@ class Api::V1::ProfileController < ApplicationController
     end
 
     def api_v1_user_params
-      params.permit(:first_name, :last_name, :image, :about, :birth_date, :gender, :phone, :web_site, :place)
+      params.permit(:first_name, :last_name, :avatar, :about, :birth_date, :gender, :phone, :web_site, :place)
     end
 end

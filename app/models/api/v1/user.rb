@@ -9,6 +9,15 @@ class Api::V1::User < ActiveRecord::Base
 	validates :last_name, presence: true, length: { maximum: 30 }, on: [:save]
   validates :gender, :inclusion => { :in => ['m', 'f'] }, :allow_blank => true
 
+  # This method associates the attribute ":image" with a file attachment
+  has_attached_file :avatar, styles: {
+    thumb: '100x100>',
+    square: '200x200#',
+    medium: '300x300>'
+  }
+  # Validate the attached image is image/jpg, image/png, etc
+  validates_attachment_content_type :avatar, :content_type => /\Aimage\/.*\Z/
+
 	before_save :default_values, :encrypt_password
 
   has_many :sport_users

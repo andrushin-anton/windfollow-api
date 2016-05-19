@@ -89,4 +89,14 @@ Rails.application.configure do
       :authentication       => :login,
       :enable_starttls_auto => true
   }
+
+  config.paperclip_defaults = {
+    storage: :s3,
+    s3_credentials: {
+      bucket: 'windfollow',
+      access_key_id: 'AKIAJP5X3K5JH6TS357Q',
+      secret_access_key: '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',
+      s3_region: 'us-west-2',
+    }
+  }
 end

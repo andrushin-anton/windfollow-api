@@ -22,6 +22,9 @@ gem 'delayed_job_active_record'
 
 gem 'addressable'
 
+gem 'paperclip'
+gem 'aws-sdk', '< 2.0'
+
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
