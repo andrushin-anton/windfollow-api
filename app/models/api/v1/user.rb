@@ -7,12 +7,16 @@ class Api::V1::User < ActiveRecord::Base
 	validates :email, :uniqueness => true, on: [:save]
 	validates :first_name, presence: true, length: { maximum: 30 }, on: [:save]
 	validates :last_name, presence: true, length: { maximum: 30 }, on: [:save]
+  validates :gender, :inclusion => { :in => ['m', 'f'] }, :allow_blank => true
 
-	before_save :default_values
-	before_save :encrypt_password
+	before_save :default_values, :encrypt_password
 
   has_many :sport_users
   has_many :sports, through: :sport_users
+
+  attr_accessor :place
+
+  KEY = '1d272f038724b99d7a5e1f4839356543ce1d3c2f'
 
 	#scope :authorize, -> (email, password) { where('email =? and password =?', email, Digest::MD5.hexdigest(password)) }
   
@@ -23,13 +27,13 @@ class Api::V1::User < ActiveRecord::Base
   def generate_token
   	payload = {:user_id => self.id, :exripires_at => 1.month.from_now }
   	# encrypt the payload
-  	encrypted_data = Base64.urlsafe_encode64(AESCrypt.encrypt(payload.to_json, '1d272f038724b99d7a5e1f4839356543ce1d3c2f'))
+  	encrypted_data = Base64.urlsafe_encode64(AESCrypt.encrypt(payload.to_json, KEY))
   	# return json object containing token
   	{:access_token => encrypted_data, :exripires_at => 1.month.from_now}.to_json
   end
 
   def self.validate_token(token)
-  	payload_json = AESCrypt.decrypt(Base64.urlsafe_decode64(token), '1d272f038724b99d7a5e1f4839356543ce1d3c2f')
+  	payload_json = AESCrypt.decrypt(Base64.urlsafe_decode64(token), KEY)
   	payload = JSON.parse(payload_json)
   	if payload.has_key?('user_id') && payload.has_key?('exripires_at')
   		unless payload['exripires_at'].to_datetime.past?
@@ -41,6 +45,18 @@ class Api::V1::User < ActiveRecord::Base
 
   def default_values
     self.rating ||= 0
+
+    # places
+    unless self.place.nil?
+      places = self.place.split(',')
+      # parse place
+      self.country = places.last
+      self.city = self.place.chomp(',' + self.country)
+    end
+  end
+
+  def gender_defined?
+    self.gender.nil?
   end
 
   def encrypt_password

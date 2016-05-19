@@ -1,6 +1,6 @@
 class Api::V1::UsersController < ApplicationController
-  before_action :set_api_v1_user, only: [:show, :update, :destroy]
   before_filter :authenticate_user!, only: [:index, :update, :show]
+  before_action :set_api_v1_user, only: [:show, :update, :destroy]
 
   # GET /api/v1/users
   # GET /api/v1/users.json
