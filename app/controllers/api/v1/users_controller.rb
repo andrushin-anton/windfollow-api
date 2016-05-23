@@ -20,7 +20,7 @@ class Api::V1::UsersController < ApplicationController
       @api_v1_users = Api::V1::User.where('first_name like :search or last_name like :search', search: "%#{params[:search]}%").all
     end
 
-    render json: @api_v1_users
+    paginate json: @api_v1_users
   end
 
   # GET /api/v1/users/1

@@ -22,8 +22,17 @@ gem 'delayed_job_active_record'
 
 gem 'addressable'
 
+# image resize
 gem 'paperclip'
+
 gem 'aws-sdk', '< 2.0'
+
+# pagination
+gem 'grape', '>= 0.10.0'
+
+gem 'kaminari'
+
+gem 'api-pagination'
 
 
 # To use ActiveModel has_secure_password

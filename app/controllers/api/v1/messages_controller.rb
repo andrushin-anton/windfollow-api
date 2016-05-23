@@ -11,7 +11,7 @@ class Api::V1::MessagesController < ApplicationController
   # GET /api/v1/messages/1/recepient
   # GET /api/v1/messages/1/recepient.json
   def recepient
-    render json: Api::V1::Message.filter_by_user(@current_user.id).filter_by_recepient(params[:id]).recent
+    paginate json: Api::V1::Message.filter_by_user(@current_user.id).filter_by_recepient(params[:id]).recent
   end
 
   # GET /api/v1/messages/1
