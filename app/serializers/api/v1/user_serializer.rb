@@ -1,5 +1,5 @@
 class Api::V1::UserSerializer < ActiveModel::Serializer
-  attributes :id, :email, :first_name, :last_name, :rating, :about, :birth_date, :gender, :phone, :web_site, :country, :city, :created_at, :avatar, :sports
+  attributes :id, :email, :first_name, :last_name, :rating, :about, :birth_date, :gender, :phone, :web_site, :country, :city, :created_at, :avatar, :sports, :followers, :followings
 
   def sports
   	object.sports.map do |sport|
@@ -9,5 +9,13 @@ class Api::V1::UserSerializer < ActiveModel::Serializer
 
   def avatar
   	object.avatar.url.sub! 's3.amazonaws.com/windfollow', 'windfollow.s3.amazonaws.com'
+  end
+
+  def followers
+  	object.followers.count(:all)
+  end
+
+  def followings
+  	object.followings.count(:all)
   end
 end

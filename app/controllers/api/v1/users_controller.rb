@@ -5,7 +5,20 @@ class Api::V1::UsersController < ApplicationController
   # GET /api/v1/users
   # GET /api/v1/users.json
   def index
+
     @api_v1_users = Api::V1::User.all
+    
+    unless params[:followers].nil?
+      @api_v1_users = Api::V1::Follower.where('follower_id = ?', @current_user.id).all
+    end
+
+    unless params[:followings].nil?
+      @api_v1_users = Api::V1::Following.where('user_id = ?', @current_user.id).all
+    end
+
+    unless params[:search].nil?
+      @api_v1_users = Api::V1::User.where('first_name like :search or last_name like :search', search: "%#{params[:search]}%").all
+    end
 
     render json: @api_v1_users
   end
