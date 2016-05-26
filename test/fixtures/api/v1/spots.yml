@@ -1,0 +1,27 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  geo_lat: MyString
+  geo_lon: MyString
+  rating: 1
+  best_month: MyString
+  wave: MyString
+  level: MyString
+  user_id: 1
+  country: MyString
+  city: MyString
+  sport: MyString
+
+two:
+  name: MyString
+  geo_lat: MyString
+  geo_lon: MyString
+  rating: 1
+  best_month: MyString
+  wave: MyString
+  level: MyString
+  user_id: 1
+  country: MyString
+  city: MyString
+  sport: MyString

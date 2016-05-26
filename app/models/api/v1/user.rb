@@ -24,6 +24,7 @@ class Api::V1::User < ActiveRecord::Base
   has_many :sports, through: :sport_users
   has_many :followers, :foreign_key => 'user_id'
   has_many :followings, :foreign_key => 'follower_id'
+  has_many :spots
 
   attr_accessor :place
 

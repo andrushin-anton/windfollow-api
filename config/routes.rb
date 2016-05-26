@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  namespace :api do  namespace :v1 do resources :spots, except: [:new, :edit] end end
   namespace :api do  namespace :v1 do resources :followings, except: [:new, :edit] end end
   namespace :api do  namespace :v1 do resources :followers, except: [:new, :edit] end end
   namespace :api do  namespace :v1 do resources :sports, except: [:new, :edit] end end
