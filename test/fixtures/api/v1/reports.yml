@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  spot_id: 
+  content: MyString
+  user_id: 1
+  place: MyString
+  wind: MyString
+  direction: MyString
+
+two:
+  spot_id: 
+  content: MyString
+  user_id: 1
+  place: MyString
+  wind: MyString
+  direction: MyString

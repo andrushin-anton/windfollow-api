@@ -28,7 +28,7 @@ class ApplicationController < ActionController::API
 	  end
 	  head status: status and return if errors.empty?
 
-	  render json: jsonapi_format(errors).to_json, status: status
+	  render json: { error: errors }, status: status
 	end
 
 	def authenticate_user!
