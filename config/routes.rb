@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     put  'profile' => 'profile#update'
     get  'messages/:id/recepient' => 'messages#recepient'
     get  'city/:input' => 'city#autocomplete'
+    get  'geo' => 'geo#complete'
     delete 'sport_user/:sport_id' => 'sport_user#destroy'
     end
   end
