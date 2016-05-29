@@ -16,12 +16,6 @@ class Api::V1::ReportsController < ApplicationController
     render json: @api_v1_report
   end
 
-  # GET /api/v1/reports/1/comments
-  # GET /api/v1/reports/1/comments.json
-  def comments
-    paginate json: Api::V1::ReportComment.where('report_id = ?', params[:id]).recent
-  end
-
   # POST /api/v1/reports
   # POST /api/v1/reports.json
   def create

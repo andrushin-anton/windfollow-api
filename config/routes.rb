@@ -14,7 +14,7 @@ Rails.application.routes.draw do
     get  'messages/:id/recepient' => 'messages#recepient'
     get  'city/:input' => 'city#autocomplete'
     get  'geo' => 'geo#complete'
-    get  'reports/:id/comments' => 'reports#comments'
+    get  'reports/:id/comments' => 'report_comments#comments'
     delete 'sport_user/:sport_id' => 'sport_user#destroy'
     end
   end
