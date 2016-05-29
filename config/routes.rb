@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  namespace :api do  namespace :v1 do resources :report_comments, except: [:new, :edit] end end
   namespace :api do  namespace :v1 do resources :reports, except: [:new, :edit] end end
   namespace :api do  namespace :v1 do resources :spots, except: [:new, :edit] end end
   namespace :api do  namespace :v1 do resources :followings, except: [:new, :edit] end end
@@ -13,6 +14,7 @@ Rails.application.routes.draw do
     get  'messages/:id/recepient' => 'messages#recepient'
     get  'city/:input' => 'city#autocomplete'
     get  'geo' => 'geo#complete'
+    get  'reports/:id/comments' => 'reports#comments'
     delete 'sport_user/:sport_id' => 'sport_user#destroy'
     end
   end
