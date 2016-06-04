@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  namespace :api do  namespace :v1 do resources :report_image_likes, except: [:new, :edit] end end
   namespace :api do  namespace :v1 do resources :report_images, except: [:new, :edit] end end
   namespace :api do  namespace :v1 do resources :report_likes, except: [:new, :edit] end end
   namespace :api do  namespace :v1 do resources :report_comments, except: [:new, :edit] end end
@@ -20,6 +21,7 @@ Rails.application.routes.draw do
     get  'reports/:id/likes' => 'report_likes#likes'
     get  'reports/:id/images' => 'report_images#images'
     get  'users/:id/images' => 'report_images#uimages'
+    get  'report_images/:id/likes' => 'report_image_likes#likes'
     delete 'sport_user/:sport_id' => 'sport_user#destroy'
     end
   end

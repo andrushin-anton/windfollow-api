@@ -13,6 +13,7 @@ class Api::V1::ReportLikesController < ApplicationController
   # GET /api/v1/report_likes/1
   # GET /api/v1/report_likes/1.json
   def show
+    head :not_found
     #render json: @api_v1_report_like
   end
 
@@ -49,7 +50,9 @@ class Api::V1::ReportLikesController < ApplicationController
   # DELETE /api/v1/report_likes/1
   # DELETE /api/v1/report_likes/1.json
   def destroy
-    @api_v1_report_like.destroy
+    unless condition
+      @api_v1_report_like.destroy
+    end
     head :no_content
   end
 

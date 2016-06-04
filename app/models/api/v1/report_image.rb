@@ -12,6 +12,7 @@ class Api::V1::ReportImage < ActiveRecord::Base
 
   belongs_to :user
   belongs_to :report
+  has_many :report_image_likes
 
   scope :recent, -> () { order('created_at DESC') }
 
