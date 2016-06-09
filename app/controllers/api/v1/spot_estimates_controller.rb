@@ -50,17 +50,15 @@ class Api::V1::SpotEstimatesController < ApplicationController
   # DELETE /api/v1/spot_estimates/1
   # DELETE /api/v1/spot_estimates/1.json
   def destroy
-    if @api_v1_spot_estimate.user_id == @current_user.id && @api_v1_spot_estimate.destroy
+    if @api_v1_spot_estimate.destroy
       head :no_content
-    else
-      render json: { error: 'not allowed' }, status: 401
     end
   end
 
   private
 
     def set_api_v1_spot_estimate
-      @api_v1_spot_estimate = Api::V1::SpotEstimate.find(params[:id])
+      @api_v1_spot_estimate = Api::V1::SpotEstimate.where('spot_id = ? and user_id = ?', params[:id], @current_user.id).first
     end
 
     def api_v1_spot_estimate_params
