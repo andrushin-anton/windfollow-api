@@ -4,4 +4,5 @@ class Api::V1::Report < ActiveRecord::Base
 	has_many :report_comments
 	has_many :report_likes
 	has_many :report_images
+	belongs_to :user
 end

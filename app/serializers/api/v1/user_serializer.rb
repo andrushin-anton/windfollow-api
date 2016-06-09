@@ -8,7 +8,7 @@ class Api::V1::UserSerializer < ActiveModel::Serializer
   end
 
   def avatar
-  	object.avatar.url.sub! 's3.amazonaws.com/windfollow', 'windfollow.s3.amazonaws.com'
+  	object.formated_avatar
   end
 
   def followers
