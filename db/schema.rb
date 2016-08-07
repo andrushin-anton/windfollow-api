@@ -11,13 +11,60 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160609201729) do
+ActiveRecord::Schema.define(version: 20160807220619) do
 
   create_table "api_v1_followers", force: :cascade do |t|
     t.integer  "follower_id", limit: 4
     t.integer  "user_id",     limit: 4
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
+  end
+
+  create_table "api_v1_gfs", id: false, force: :cascade do |t|
+    t.datetime "rt",                  null: false
+    t.datetime "vt",                  null: false
+    t.float    "lat",      limit: 53, null: false
+    t.float    "lon",      limit: 53, null: false
+    t.float    "HGT_850",  limit: 53
+    t.float    "TMP_850",  limit: 53
+    t.float    "UGRD_850", limit: 53
+    t.float    "VGRD_850", limit: 53
+    t.float    "HGT_925",  limit: 53
+    t.float    "TMP_925",  limit: 53
+    t.float    "UGRD_925", limit: 53
+    t.float    "VGRD_925", limit: 53
+    t.float    "HGT_0",    limit: 53
+    t.float    "TMP_2",    limit: 53
+    t.float    "RH_2",     limit: 53
+    t.float    "RH_925",   limit: 53
+    t.float    "RH_850",   limit: 53
+    t.float    "TMAX_2",   limit: 53
+    t.float    "TMIN_2",   limit: 53
+    t.float    "UGRD_0",   limit: 53
+    t.float    "VGRD_0",   limit: 53
+    t.float    "APCP_0",   limit: 53
+    t.float    "ACPCP_0",  limit: 53
+    t.float    "CSNOW_0",  limit: 53
+    t.float    "LFTX_0",   limit: 53
+    t.float    "CAPE_0",   limit: 53
+    t.float    "TCDC_925", limit: 53
+    t.float    "TCDC_700", limit: 53
+    t.float    "TCDC_500", limit: 53
+    t.float    "TCDC_0",   limit: 53
+    t.float    "DSWRF_0",  limit: 53
+    t.float    "USWRF_0",  limit: 53
+    t.float    "PRMSL_0",  limit: 53
+    t.float    "GUST_0",   limit: 53
+    t.float    "ULWRF_0",  limit: 53
+    t.float    "DLWRF_0",  limit: 53
+    t.float    "UGRD_10",  limit: 53
+    t.float    "U_GWD_0",  limit: 53
+    t.float    "TMP_10",   limit: 53
+    t.float    "CPRAT_0",  limit: 53
+    t.float    "TMP_0",    limit: 53
+    t.float    "VGRD_10",  limit: 53
+    t.float    "UGRD_1",   limit: 53
+    t.float    "VGRD_1",   limit: 53
   end
 
   create_table "api_v1_messages", force: :cascade do |t|
@@ -168,53 +215,6 @@ ActiveRecord::Schema.define(version: 20160609201729) do
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
   create_table "gfs_2_5", id: false, force: :cascade do |t|
-    t.datetime "rt",                  null: false
-    t.datetime "vt",                  null: false
-    t.float    "lat",      limit: 53, null: false
-    t.float    "lon",      limit: 53, null: false
-    t.float    "HGT_850",  limit: 53
-    t.float    "TMP_850",  limit: 53
-    t.float    "UGRD_850", limit: 53
-    t.float    "VGRD_850", limit: 53
-    t.float    "HGT_925",  limit: 53
-    t.float    "TMP_925",  limit: 53
-    t.float    "UGRD_925", limit: 53
-    t.float    "VGRD_925", limit: 53
-    t.float    "HGT_0",    limit: 53
-    t.float    "TMP_2",    limit: 53
-    t.float    "RH_2",     limit: 53
-    t.float    "RH_925",   limit: 53
-    t.float    "RH_850",   limit: 53
-    t.float    "TMAX_2",   limit: 53
-    t.float    "TMIN_2",   limit: 53
-    t.float    "UGRD_0",   limit: 53
-    t.float    "VGRD_0",   limit: 53
-    t.float    "APCP_0",   limit: 53
-    t.float    "ACPCP_0",  limit: 53
-    t.float    "CSNOW_0",  limit: 53
-    t.float    "LFTX_0",   limit: 53
-    t.float    "CAPE_0",   limit: 53
-    t.float    "TCDC_925", limit: 53
-    t.float    "TCDC_700", limit: 53
-    t.float    "TCDC_500", limit: 53
-    t.float    "TCDC_0",   limit: 53
-    t.float    "DSWRF_0",  limit: 53
-    t.float    "USWRF_0",  limit: 53
-    t.float    "PRMSL_0",  limit: 53
-    t.float    "GUST_0",   limit: 53
-    t.float    "ULWRF_0",  limit: 53
-    t.float    "DLWRF_0",  limit: 53
-    t.float    "UGRD_10",  limit: 53
-    t.float    "U_GWD_0",  limit: 53
-    t.float    "TMP_10",   limit: 53
-    t.float    "CPRAT_0",  limit: 53
-    t.float    "TMP_0",    limit: 53
-    t.float    "VGRD_10",  limit: 53
-    t.float    "UGRD_1",   limit: 53
-    t.float    "VGRD_1",   limit: 53
-  end
-
-  create_table "gfs_2_5_innodb", id: false, force: :cascade do |t|
     t.datetime "rt",                  null: false
     t.datetime "vt",                  null: false
     t.float    "lat",      limit: 53, null: false

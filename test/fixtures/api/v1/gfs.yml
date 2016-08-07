@@ -1,0 +1,93 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  rt: 2016-08-07 21:52:28
+  vt: 2016-08-07 21:52:28
+  lat: 1.5
+  lon: 1.5
+  HGT_850: 1.5
+  TMP_850: 1.5
+  UGRD_850: 1.5
+  VGRD_850: 1.5
+  HGT_925: 1.5
+  TMP_925: 1.5
+  UGRD_925: 1.5
+  VGRD_925: 1.5
+  HGT_0: 1.5
+  TMP_2: 1.5
+  RH_2: 1.5
+  RH_925: 1.5
+  RH_850: 1.5
+  TMAX_2: 1.5
+  TMIN_2: 1.5
+  UGRD_0: 1.5
+  VGRD_0: 1.5
+  APCP_0: 1.5
+  ACPCP_0: 1.5
+  CSNOW_0: 1.5
+  LFTX_0: 1.5
+  CAPE_0: 1.5
+  TCDC_925: 1.5
+  TCDC_700: 1.5
+  TCDC_500: 1.5
+  TCDC_0: 1.5
+  DSWRF_0: 1.5
+  USWRF_0: 1.5
+  PRMSL_0: 1.5
+  GUST_0: 1.5
+  ULWRF_0: 1.5
+  DLWRF_0: 1.5
+  UGRD_10: 1.5
+  U_GWD_0: 1.5
+  TMP_10: 1.5
+  CPRAT_0: 1.5
+  TMP_0: 1.5
+  VGRD_10: 1.5
+  UGRD_1: 1.5
+  VGRD_1: 1.5
+
+two:
+  rt: 2016-08-07 21:52:28
+  vt: 2016-08-07 21:52:28
+  lat: 1.5
+  lon: 1.5
+  HGT_850: 1.5
+  TMP_850: 1.5
+  UGRD_850: 1.5
+  VGRD_850: 1.5
+  HGT_925: 1.5
+  TMP_925: 1.5
+  UGRD_925: 1.5
+  VGRD_925: 1.5
+  HGT_0: 1.5
+  TMP_2: 1.5
+  RH_2: 1.5
+  RH_925: 1.5
+  RH_850: 1.5
+  TMAX_2: 1.5
+  TMIN_2: 1.5
+  UGRD_0: 1.5
+  VGRD_0: 1.5
+  APCP_0: 1.5
+  ACPCP_0: 1.5
+  CSNOW_0: 1.5
+  LFTX_0: 1.5
+  CAPE_0: 1.5
+  TCDC_925: 1.5
+  TCDC_700: 1.5
+  TCDC_500: 1.5
+  TCDC_0: 1.5
+  DSWRF_0: 1.5
+  USWRF_0: 1.5
+  PRMSL_0: 1.5
+  GUST_0: 1.5
+  ULWRF_0: 1.5
+  DLWRF_0: 1.5
+  UGRD_10: 1.5
+  U_GWD_0: 1.5
+  TMP_10: 1.5
+  CPRAT_0: 1.5
+  TMP_0: 1.5
+  VGRD_10: 1.5
+  UGRD_1: 1.5
+  VGRD_1: 1.5

@@ -26,6 +26,7 @@ Rails.application.routes.draw do
     get  'users/:id/images' => 'report_images#uimages'
     get  'report_images/:id/likes' => 'report_image_likes#likes'
     get  'report_images/:id/comments' => 'report_image_comments#comments'
+    get  'forecast/gfs' => 'forecast#gfs'
     delete 'sport_user/:sport_id' => 'sport_user#destroy'
     end
   end
