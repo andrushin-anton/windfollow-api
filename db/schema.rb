@@ -13,161 +13,262 @@
 
 ActiveRecord::Schema.define(version: 20160609201729) do
 
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-
   create_table "api_v1_followers", force: :cascade do |t|
-    t.integer  "follower_id"
-    t.integer  "user_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.integer  "follower_id", limit: 4
+    t.integer  "user_id",     limit: 4
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
   end
 
   create_table "api_v1_messages", force: :cascade do |t|
-    t.integer  "sender_id"
-    t.integer  "recepient_id"
-    t.string   "content"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.integer  "sender_id",    limit: 4
+    t.integer  "recepient_id", limit: 4
+    t.string   "content",      limit: 255
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
   end
 
   create_table "api_v1_notifications", force: :cascade do |t|
-    t.integer  "user_id"
-    t.string   "event_type"
-    t.string   "content"
-    t.integer  "event_object_id"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.integer  "user_id",         limit: 4
+    t.string   "event_type",      limit: 255
+    t.string   "content",         limit: 255
+    t.integer  "event_object_id", limit: 4
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
   end
 
   create_table "api_v1_report_comments", force: :cascade do |t|
-    t.integer  "report_id"
-    t.integer  "user_id"
-    t.string   "content"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "report_id",  limit: 4
+    t.integer  "user_id",    limit: 4
+    t.string   "content",    limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   create_table "api_v1_report_image_comments", force: :cascade do |t|
-    t.integer  "report_image_id"
-    t.integer  "user_id"
-    t.string   "content"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.integer  "report_image_id", limit: 4
+    t.integer  "user_id",         limit: 4
+    t.string   "content",         limit: 255
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
   end
 
   create_table "api_v1_report_image_likes", force: :cascade do |t|
-    t.integer  "user_id"
-    t.integer  "report_image_id"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.integer  "user_id",         limit: 4
+    t.integer  "report_image_id", limit: 4
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
   end
 
   create_table "api_v1_report_images", force: :cascade do |t|
-    t.integer  "report_id"
-    t.integer  "user_id"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
-    t.string   "image_file_name"
-    t.string   "image_content_type"
-    t.integer  "image_file_size"
+    t.integer  "report_id",          limit: 4
+    t.integer  "user_id",            limit: 4
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.string   "image_file_name",    limit: 255
+    t.string   "image_content_type", limit: 255
+    t.integer  "image_file_size",    limit: 4
     t.datetime "image_updated_at"
   end
 
   create_table "api_v1_report_likes", force: :cascade do |t|
-    t.integer  "user_id"
-    t.integer  "report_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "user_id",    limit: 4
+    t.integer  "report_id",  limit: 4
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
   end
 
   create_table "api_v1_reports", force: :cascade do |t|
-    t.integer  "spot_id"
-    t.string   "content"
-    t.integer  "user_id"
-    t.string   "place"
-    t.string   "wind"
-    t.string   "direction"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "spot_id",    limit: 4
+    t.string   "content",    limit: 255
+    t.integer  "user_id",    limit: 4
+    t.string   "place",      limit: 255
+    t.string   "wind",       limit: 255
+    t.string   "direction",  limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   create_table "api_v1_sport_users", force: :cascade do |t|
-    t.integer  "sport_id"
-    t.integer  "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "sport_id",   limit: 4
+    t.integer  "user_id",    limit: 4
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
   end
 
   create_table "api_v1_sports", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "name",       limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   create_table "api_v1_spot_estimates", force: :cascade do |t|
-    t.integer  "spot_id"
-    t.integer  "user_id"
-    t.integer  "rating"
-    t.string   "best_month"
-    t.string   "wave"
-    t.string   "level"
-    t.string   "sport"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "spot_id",    limit: 4
+    t.integer  "user_id",    limit: 4
+    t.integer  "rating",     limit: 4
+    t.string   "best_month", limit: 255
+    t.string   "wave",       limit: 255
+    t.string   "level",      limit: 255
+    t.string   "sport",      limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   create_table "api_v1_spots", force: :cascade do |t|
-    t.string   "name"
-    t.string   "geo_lat"
-    t.string   "geo_lon"
-    t.string   "rating"
-    t.string   "best_month"
-    t.string   "wave"
-    t.string   "level"
-    t.integer  "user_id"
-    t.string   "country"
-    t.string   "city"
-    t.string   "sport"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "name",       limit: 255
+    t.string   "geo_lat",    limit: 255
+    t.string   "geo_lon",    limit: 255
+    t.string   "rating",     limit: 255
+    t.string   "best_month", limit: 255
+    t.string   "wave",       limit: 255
+    t.string   "level",      limit: 255
+    t.integer  "user_id",    limit: 4
+    t.string   "country",    limit: 255
+    t.string   "city",       limit: 255
+    t.string   "sport",      limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   create_table "api_v1_users", force: :cascade do |t|
-    t.string   "email"
-    t.string   "password"
-    t.string   "first_name"
-    t.string   "last_name"
-    t.integer  "rating"
-    t.datetime "created_at",          null: false
-    t.datetime "updated_at",          null: false
-    t.string   "about"
+    t.string   "email",               limit: 255
+    t.string   "password",            limit: 255
+    t.string   "first_name",          limit: 255
+    t.string   "last_name",           limit: 255
+    t.integer  "rating",              limit: 4
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.string   "about",               limit: 255
     t.date     "birth_date"
-    t.string   "gender"
-    t.string   "phone"
-    t.string   "web_site"
-    t.string   "country"
-    t.string   "city"
-    t.string   "avatar_file_name"
-    t.string   "avatar_content_type"
-    t.integer  "avatar_file_size"
+    t.string   "gender",              limit: 255
+    t.string   "phone",               limit: 255
+    t.string   "web_site",            limit: 255
+    t.string   "country",             limit: 255
+    t.string   "city",                limit: 255
+    t.string   "avatar_file_name",    limit: 255
+    t.string   "avatar_content_type", limit: 255
+    t.integer  "avatar_file_size",    limit: 4
     t.datetime "avatar_updated_at"
   end
 
   create_table "delayed_jobs", force: :cascade do |t|
-    t.integer  "priority",   default: 0, null: false
-    t.integer  "attempts",   default: 0, null: false
-    t.text     "handler",                null: false
-    t.text     "last_error"
+    t.integer  "priority",   limit: 4,     default: 0, null: false
+    t.integer  "attempts",   limit: 4,     default: 0, null: false
+    t.text     "handler",    limit: 65535,             null: false
+    t.text     "last_error", limit: 65535
     t.datetime "run_at"
     t.datetime "locked_at"
     t.datetime "failed_at"
-    t.string   "locked_by"
-    t.string   "queue"
+    t.string   "locked_by",  limit: 255
+    t.string   "queue",      limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
+
+  create_table "gfs_2_5", id: false, force: :cascade do |t|
+    t.datetime "rt",                  null: false
+    t.datetime "vt",                  null: false
+    t.float    "lat",      limit: 53, null: false
+    t.float    "lon",      limit: 53, null: false
+    t.float    "HGT_850",  limit: 53
+    t.float    "TMP_850",  limit: 53
+    t.float    "UGRD_850", limit: 53
+    t.float    "VGRD_850", limit: 53
+    t.float    "HGT_925",  limit: 53
+    t.float    "TMP_925",  limit: 53
+    t.float    "UGRD_925", limit: 53
+    t.float    "VGRD_925", limit: 53
+    t.float    "HGT_0",    limit: 53
+    t.float    "TMP_2",    limit: 53
+    t.float    "RH_2",     limit: 53
+    t.float    "RH_925",   limit: 53
+    t.float    "RH_850",   limit: 53
+    t.float    "TMAX_2",   limit: 53
+    t.float    "TMIN_2",   limit: 53
+    t.float    "UGRD_0",   limit: 53
+    t.float    "VGRD_0",   limit: 53
+    t.float    "APCP_0",   limit: 53
+    t.float    "ACPCP_0",  limit: 53
+    t.float    "CSNOW_0",  limit: 53
+    t.float    "LFTX_0",   limit: 53
+    t.float    "CAPE_0",   limit: 53
+    t.float    "TCDC_925", limit: 53
+    t.float    "TCDC_700", limit: 53
+    t.float    "TCDC_500", limit: 53
+    t.float    "TCDC_0",   limit: 53
+    t.float    "DSWRF_0",  limit: 53
+    t.float    "USWRF_0",  limit: 53
+    t.float    "PRMSL_0",  limit: 53
+    t.float    "GUST_0",   limit: 53
+    t.float    "ULWRF_0",  limit: 53
+    t.float    "DLWRF_0",  limit: 53
+    t.float    "UGRD_10",  limit: 53
+    t.float    "U_GWD_0",  limit: 53
+    t.float    "TMP_10",   limit: 53
+    t.float    "CPRAT_0",  limit: 53
+    t.float    "TMP_0",    limit: 53
+    t.float    "VGRD_10",  limit: 53
+    t.float    "UGRD_1",   limit: 53
+    t.float    "VGRD_1",   limit: 53
+  end
+
+  create_table "gfs_2_5_innodb", id: false, force: :cascade do |t|
+    t.datetime "rt",                  null: false
+    t.datetime "vt",                  null: false
+    t.float    "lat",      limit: 53, null: false
+    t.float    "lon",      limit: 53, null: false
+    t.float    "HGT_850",  limit: 53
+    t.float    "TMP_850",  limit: 53
+    t.float    "UGRD_850", limit: 53
+    t.float    "VGRD_850", limit: 53
+    t.float    "HGT_925",  limit: 53
+    t.float    "TMP_925",  limit: 53
+    t.float    "UGRD_925", limit: 53
+    t.float    "VGRD_925", limit: 53
+    t.float    "HGT_0",    limit: 53
+    t.float    "TMP_2",    limit: 53
+    t.float    "RH_2",     limit: 53
+    t.float    "RH_925",   limit: 53
+    t.float    "RH_850",   limit: 53
+    t.float    "TMAX_2",   limit: 53
+    t.float    "TMIN_2",   limit: 53
+    t.float    "UGRD_0",   limit: 53
+    t.float    "VGRD_0",   limit: 53
+    t.float    "APCP_0",   limit: 53
+    t.float    "ACPCP_0",  limit: 53
+    t.float    "CSNOW_0",  limit: 53
+    t.float    "LFTX_0",   limit: 53
+    t.float    "CAPE_0",   limit: 53
+    t.float    "TCDC_925", limit: 53
+    t.float    "TCDC_700", limit: 53
+    t.float    "TCDC_500", limit: 53
+    t.float    "TCDC_0",   limit: 53
+    t.float    "DSWRF_0",  limit: 53
+    t.float    "USWRF_0",  limit: 53
+    t.float    "PRMSL_0",  limit: 53
+    t.float    "GUST_0",   limit: 53
+    t.float    "ULWRF_0",  limit: 53
+    t.float    "DLWRF_0",  limit: 53
+    t.float    "UGRD_10",  limit: 53
+    t.float    "U_GWD_0",  limit: 53
+    t.float    "TMP_10",   limit: 53
+    t.float    "CPRAT_0",  limit: 53
+    t.float    "TMP_0",    limit: 53
+    t.float    "VGRD_10",  limit: 53
+    t.float    "UGRD_1",   limit: 53
+    t.float    "VGRD_1",   limit: 53
+  end
+
+  create_table "wgrib2_parameter_mapping", id: false, force: :cascade do |t|
+    t.integer "center_id",             limit: 4,   default: 0,  null: false
+    t.string  "wgrib_param_name",      limit: 30,  default: "", null: false
+    t.string  "wgrib_param_levelname", limit: 100, default: "", null: false
+    t.string  "our_name",              limit: 30
+    t.string  "our_levelname",         limit: 100
+    t.string  "conversion",            limit: 30
+    t.integer "val_precision",         limit: 4
+  end
 
 end

@@ -12,7 +12,7 @@ gem 'spring', :group => :development
 
 #gem 'sqlite3'
 
-gem 'pg'
+gem 'mysql2'
 
 gem 'rails_12factor', group: :production
 

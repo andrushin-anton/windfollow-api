@@ -5,13 +5,15 @@
 #   gem 'sqlite3'
 #
 default: &default
-  adapter: postgresql
-  pool: 5
+  adapter: mysql2
+  username: root
+  password: root
+  host: 127.0.0.1
   timeout: 5000
 
 development:
   <<: *default
-  database: windfollow_dev
+  database: windfollow
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -22,4 +24,4 @@ test:
 
 production:
   <<: *default
-  database: windfollow_prod
+  database: windfollow
