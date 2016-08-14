@@ -115,7 +115,7 @@ GEM
     multi_xml (0.5.5)
     mustermann19 (0.4.4)
       enumerable-lazy
-    mysql2 (0.4.4)
+    mysql2 (0.3.20)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (3.2.0)
@@ -204,7 +204,7 @@ DEPENDENCIES
   delayed_job_active_record
   grape (>= 0.10.0)
   kaminari
-  mysql2
+  mysql2 (~> 0.3.18)
   paperclip
   rails (= 4.2.0)
   rails-api
