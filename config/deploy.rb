@@ -1,3 +1,5 @@
+require 'delayed/recipes'
+
 # config valid only for Capistrano 3.1
 lock '3.4.1'
 
@@ -34,6 +36,12 @@ set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public
 # Default value for keep_releases is 5
 # set :keep_releases, 5
 
+set :delayed_job_command, "bin/delayed_job"
+
+after "deploy:start", "delayed_job:start"
+after "deploy:stop", "delayed_job:stop"
+after "deploy:restart", "delayed_job:stop","delayed_job:start"
+
 namespace :deploy do
 
   desc 'Restart application'
@@ -41,7 +49,6 @@ namespace :deploy do
     on roles(:app), in: :sequence, wait: 5 do
       # Your restart mechanism here, for example:
       execute :touch, release_path.join('tmp/restart.txt')
-      invoke 'delayed_job:restart'
     end
   end
 
