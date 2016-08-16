@@ -20,6 +20,8 @@ gem 'aescrypt'
 
 gem 'delayed_job_active_record'
 
+gem "daemons"
+
 gem 'addressable'
 
 # image resize
@@ -40,6 +42,7 @@ group :development do
 	gem 'capistrano-bundler', '~> 1.1.2'
 	gem 'capistrano-rails', '~> 1.1.1' 	
 	gem 'capistrano-rbenv'
+	gem 'capistrano3-delayed-job'
 end
 
 
