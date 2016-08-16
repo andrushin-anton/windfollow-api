@@ -1,5 +1,3 @@
-require 'delayed/recipes'
-
 # config valid only for Capistrano 3.1
 lock '3.4.1'
 
@@ -38,9 +36,12 @@ set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public
 
 set :delayed_job_command, "bin/delayed_job"
 
-after "deploy:start", "delayed_job:start"
-after "deploy:stop", "delayed_job:stop"
-after "deploy:restart", "delayed_job:stop","delayed_job:start"
+after 'deploy:publishing', 'deploy:restart'
+namespace :deploy do
+  task :restart do
+    invoke 'delayed_job:restart'
+  end
+end
 
 namespace :deploy do
 
