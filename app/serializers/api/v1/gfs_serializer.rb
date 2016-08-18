@@ -1,5 +1,5 @@
 class Api::V1::GfsSerializer < ActiveModel::Serializer
-  attributes :rt, :vt, :lat, :lon, :wind_dir, :wind_speed, :temp, :GUST_0, :CPRAT_0, :UGRD_1, :VGRD_1, :TCDC_925, :TCDC_700, :TCDC_500
+  attributes :rt, :vt, :lat, :lon, :wind_dir, :wind_dir_deg, :wind_speed, :temp, :GUST_0, :CPRAT_0, :UGRD_1, :VGRD_1, :TCDC_925, :TCDC_700, :TCDC_500
 
   def temp
     # T(°C) = T(K) - 273.15
@@ -8,6 +8,18 @@ class Api::V1::GfsSerializer < ActiveModel::Serializer
 
   def wind_speed
     return (Math::sqrt((object.UGRD_1 ** 2) + (object.VGRD_1 ** 2))).round(1)  
+  end
+
+  def wind_dir_deg
+    if(object.VGRD_1 > 0)
+      return (((180 / Math::PI) * Math::atan(object.UGRD_1/object.VGRD_1) + 180)).round(2)
+    elsif(object.UGRD_1 < 0 && object.VGRD_1 < 0)
+      return (((180 / Math::PI) * Math::atan(object.UGRD_1/object.VGRD_1) + 0)).round(2)
+    elsif(object.UGRD_1 > 0 && object.VGRD_1 < 0)
+      return (((180 / Math::PI) * Math::atan(object.UGRD_1/object.VGRD_1) + 360)).round(2)
+    else
+      return 147 #SSE
+    end
   end
 
   def wind_dir
