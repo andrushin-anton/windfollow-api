@@ -6,7 +6,7 @@ class Api::V1::ForecastController < ApplicationController
   # GET /api/v1/forecast/gfs.json
   def gfs
     # we need to get the last insert time
-    rec = Api::V1::Gfs.first
+    rec = Api::V1::Gfs.order('rt desc').first
 
     unless rec.nil? && params[:lat] && params[:lon]
       # generate each hour list forecast for next 10 days
