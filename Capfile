@@ -7,6 +7,7 @@ require 'capistrano/deploy'
 require 'capistrano/bundler'
 require 'capistrano/rails'
 require 'capistrano/rbenv'
+require 'capistrano/delayed_job'
 
 set :rbenv_ruby, '2.3.1'
 

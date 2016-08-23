@@ -10,6 +10,10 @@ set :repo_url, 'git@github.com:andrushin-anton/windfollow.git'
 # Default deploy_to directory is /var/www/my_app
 set :deploy_to, '/opt/windfollow'
 
+# Number of delayed_job workers
+# default value: 1
+set :delayed_job_workers, 2
+
 # Default value for :scm is :git
 # set :scm, :git
 
@@ -26,13 +30,15 @@ set :deploy_to, '/opt/windfollow'
 set :linked_files, %w{config/database.yml}
 
 # Default value for linked_dirs is []
-set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
+set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
 
 # Default value for keep_releases is 5
 # set :keep_releases, 5
+
+set :delayed_job_pid_dir, '/tmp'
 
 namespace :deploy do
 
@@ -53,6 +59,10 @@ namespace :deploy do
       #   execute :rake, 'cache:clear'
       # end
     end
+  end
+
+  after 'deploy:published', 'delayed_job:restart' do
+    invoke 'delayed_job:restart'
   end
 
 end
