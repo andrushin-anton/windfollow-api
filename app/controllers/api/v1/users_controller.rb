@@ -50,7 +50,7 @@ class Api::V1::UsersController < ApplicationController
         # send new password to user
         SendEmailJob.set(wait: 10.seconds).perform_later(@user, new_password)
 
-        render json: { error: 'password has been refreshed' }, status: 200
+        render json: { message: 'password has been refreshed' }, status: 200
       else
         render json: { error: @user.errors }, status: :unprocessable_entity
       end

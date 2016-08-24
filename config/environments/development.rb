@@ -48,7 +48,8 @@ Rails.application.configure do
       :domain               => "gmail.com",
       :user_name            => "hello@windfollow.com",
       :password             => "1724068Aa",
-      :authentication       => :login
+      :authentication       => "plain",
+      :enable_starttls_auto => true
   }
 
   config.paperclip_defaults = {
