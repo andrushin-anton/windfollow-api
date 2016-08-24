@@ -84,8 +84,8 @@ Rails.application.configure do
       :address              => "smtp.gmail.com",
       :port                 =>  587,
       :domain               => "gmail.com",
-      :user_name            => "hello@windfollow.com",
-      :password             => "1724068Aa",
+      :user_name            => ENV['gmail_account'],
+      :password             => ENV['gmail_account_pass'],
       :authentication       => "plain",
       :enable_starttls_auto => true
   }
@@ -94,8 +94,8 @@ Rails.application.configure do
     storage: :s3,
     s3_credentials: {
       bucket: 'windfollow',
-      access_key_id: 'AKIAJP5X3K5JH6TS357Q',
-      secret_access_key: '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',
+      access_key_id: ENV['s3_key'],
+      secret_access_key: ENV['s3_secret'],
       s3_region: 'us-west-2',
     }
   }

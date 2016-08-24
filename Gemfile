@@ -39,6 +39,8 @@ gem 'capistrano', '~> 3.4.0'
 
 gem 'daemons'
 
+gem "figaro"
+
 
 group :development do
 	gem 'capistrano-bundler', '~> 1.1.2'
