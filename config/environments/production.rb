@@ -85,7 +85,7 @@ Rails.application.configure do
       :port                 =>  587,
       :domain               => "gmail.com",
       :user_name            => "hello@windfollow.com",
-      :password             => "2436003Aa",
+      :password             => "1724068Aa",
       :authentication       => :login
   }
 
