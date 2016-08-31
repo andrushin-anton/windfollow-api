@@ -25,7 +25,29 @@ class Api::V1::ForecastController < ApplicationController
       #SELECT * FROM windfollow.gfs_2_5 where lat = -90 and lon = 0.25 and rt = '2016-08-06 12:00:00' and vt in('2016-08-06 13:00:00', '2016-08-06 14:00:00');
       @data = Api::V1::Gfs.where('lat = ? AND lon = ? AND rt = ? AND vt IN(?)', Api::V1::Gfs.interpolate_2_5(params[:lat]), Api::V1::Gfs.interpolate_2_5(params[:lon]), rec.rt, hours_list).all
 
-      render json: @data, status: 200
+      prev_apcp = 0
+      ignore_hours = ['00', '06', '12', '18']
+
+      unless @data.nil?
+        @data.each do |hour|
+          unless hour.APCP_0.nil?
+            temp_apcp_value = hour.APCP_0
+            # if this hour is not begining of a new circle
+            unless ignore_hours.include? hour.vt.strftime("%H")
+              if prev_apcp > hour.APCP_0
+                hour.APCP_0 = 0
+              else
+                hour.APCP_0 = (hour.APCP_0 - prev_apcp).round(1)
+              end
+            end
+            # set previous apcp value
+            prev_apcp = temp_apcp_value
+          end
+        end
+        render json: @data, status: 200
+      else
+        head :no_content    
+      end      
     else
       head :no_content
     end
