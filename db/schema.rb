@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160807220619) do
+ActiveRecord::Schema.define(version: 20160831091710) do
 
   create_table "api_v1_followers", force: :cascade do |t|
     t.integer  "follower_id", limit: 4
@@ -175,6 +175,7 @@ ActiveRecord::Schema.define(version: 20160807220619) do
     t.string   "sport",      limit: 255
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
+    t.integer  "active",     limit: 4
   end
 
   create_table "api_v1_users", force: :cascade do |t|
@@ -261,6 +262,124 @@ ActiveRecord::Schema.define(version: 20160807220619) do
     t.float    "VGRD_1",   limit: 53
   end
 
+  create_table "groups", force: :cascade do |t|
+    t.string "name",        limit: 20,  null: false
+    t.string "description", limit: 100, null: false
+  end
+
+  create_table "login_attempts", force: :cascade do |t|
+    t.string  "ip_address", limit: 15,  null: false
+    t.string  "login",      limit: 100, null: false
+    t.integer "time",       limit: 4
+  end
+
+  create_table "redirects", force: :cascade do |t|
+    t.string "from", limit: 255
+    t.string "to",   limit: 255
+  end
+
+  create_table "seo", force: :cascade do |t|
+    t.string "url",              limit: 255
+    t.string "title",            limit: 255
+    t.text   "seo_text",         limit: 65535
+    t.text   "meta_keywords",    limit: 65535
+    t.text   "meta_description", limit: 65535
+  end
+
+  create_table "settings", force: :cascade do |t|
+    t.string "name",  limit: 255
+    t.text   "value", limit: 4294967295
+  end
+
+  create_table "spots", force: :cascade do |t|
+    t.integer "old_id",           limit: 4,     default: 0,            null: false
+    t.string  "table",            limit: 50,                           null: false
+    t.integer "user_id",          limit: 4,     default: 0,            null: false
+    t.string  "ru_name",          limit: 255,   default: "",           null: false
+    t.string  "en_name",          limit: 255,   default: "",           null: false
+    t.string  "bwind",            limit: 20,    default: "all",        null: false
+    t.integer "country_id",       limit: 4,     default: 0,            null: false
+    t.integer "region_id",        limit: 4,     default: 0,            null: false
+    t.integer "city_id",          limit: 4,                            null: false
+    t.string  "phone",            limit: 100,                          null: false
+    t.integer "position",         limit: 4,                            null: false
+    t.integer "status",           limit: 4,     default: 1,            null: false
+    t.integer "is_meteo",         limit: 4,     default: 0,            null: false
+    t.integer "count_alboms",     limit: 4,     default: 0,            null: false
+    t.integer "count_photos",     limit: 4,     default: 0,            null: false
+    t.integer "count_videos",     limit: 4,     default: 0,            null: false
+    t.integer "count_users",      limit: 4,     default: 0,            null: false
+    t.integer "count_schools",    limit: 4,     default: 0,            null: false
+    t.string  "avatar",           limit: 255,   default: "_none_.jpg", null: false
+    t.float   "geo_lat",          limit: 24,                           null: false
+    t.float   "geo_long",         limit: 24,                           null: false
+    t.integer "zoom",             limit: 4,     default: 8,            null: false
+    t.string  "gmt",              limit: 5,     default: "0",          null: false
+    t.float   "coefficient",      limit: 24,    default: 1.0,          null: false
+    t.string  "windguru",         limit: 255,                          null: false
+    t.text    "windfinder",       limit: 65535,                        null: false
+    t.integer "is_pro",           limit: 4,     default: 0,            null: false
+    t.integer "time_limit",       limit: 4,     default: 0,            null: false
+    t.integer "hide_statistic",   limit: 4,     default: 0,            null: false
+    t.text    "price",            limit: 65535,                        null: false
+    t.integer "radius",           limit: 4,     default: 500,          null: false
+    t.integer "created_from_app", limit: 4,     default: 0,            null: false
+    t.integer "new_rating",       limit: 4
+    t.string  "new_sport",        limit: 255
+    t.string  "new_user_lvl",     limit: 255
+    t.string  "new_wave_type",    limit: 255
+    t.string  "new_best_month",   limit: 255
+  end
+
+  create_table "spots_country", force: :cascade do |t|
+    t.string "name", limit: 128, default: "", null: false
+  end
+
+  create_table "spots_photos", force: :cascade do |t|
+    t.integer "user_id",     limit: 4,   default: 0, null: false
+    t.integer "spot_id",     limit: 4,   default: 0, null: false
+    t.string  "img",         limit: 100,             null: false
+    t.integer "created",     limit: 4,               null: false
+    t.integer "count_likes", limit: 4,   default: 0, null: false
+    t.integer "is_new",      limit: 4,   default: 0, null: false
+  end
+
+  add_index "spots_photos", ["spot_id"], name: "spot_id", using: :btree
+  add_index "spots_photos", ["user_id"], name: "user_id", using: :btree
+
+  create_table "spots_region", force: :cascade do |t|
+    t.integer "country_id", limit: 4,  default: 0,  null: false
+    t.string  "name",       limit: 64, default: "", null: false
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string  "ip_address",              limit: 15,  null: false
+    t.string  "username",                limit: 100
+    t.string  "password",                limit: 255, null: false
+    t.string  "salt",                    limit: 255
+    t.string  "email",                   limit: 100, null: false
+    t.string  "activation_code",         limit: 40
+    t.string  "forgotten_password_code", limit: 40
+    t.integer "forgotten_password_time", limit: 4
+    t.string  "remember_code",           limit: 40
+    t.integer "created_on",              limit: 4,   null: false
+    t.integer "last_login",              limit: 4
+    t.boolean "active",                  limit: 1
+    t.string  "first_name",              limit: 50
+    t.string  "last_name",               limit: 50
+    t.string  "company",                 limit: 100
+    t.string  "phone",                   limit: 20
+  end
+
+  create_table "users_groups", force: :cascade do |t|
+    t.integer "user_id",  limit: 4, null: false
+    t.integer "group_id", limit: 3, null: false
+  end
+
+  add_index "users_groups", ["group_id"], name: "fk_users_groups_groups1_idx", using: :btree
+  add_index "users_groups", ["user_id", "group_id"], name: "uc_users_groups", unique: true, using: :btree
+  add_index "users_groups", ["user_id"], name: "fk_users_groups_users1_idx", using: :btree
+
   create_table "wgrib2_parameter_mapping", id: false, force: :cascade do |t|
     t.integer "center_id",             limit: 4,   default: 0,  null: false
     t.string  "wgrib_param_name",      limit: 30,  default: "", null: false
@@ -271,4 +390,6 @@ ActiveRecord::Schema.define(version: 20160807220619) do
     t.integer "val_precision",         limit: 4
   end
 
+  add_foreign_key "users_groups", "groups", name: "fk_users_groups_groups1", on_delete: :cascade
+  add_foreign_key "users_groups", "users", name: "fk_users_groups_users1", on_delete: :cascade
 end
