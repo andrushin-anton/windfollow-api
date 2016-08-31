@@ -113,7 +113,7 @@ class Api::V1::GfsSerializer < ActiveModel::Serializer
       end
 
       # NW  303.75 - 326.25
-      if dir_deg < 303.75 && dir_deg <= 326.25
+      if dir_deg > 303.75 && dir_deg <= 326.25
         return 'NW'
       end
 
