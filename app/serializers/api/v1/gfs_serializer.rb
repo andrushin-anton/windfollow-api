@@ -3,14 +3,76 @@ class Api::V1::GfsSerializer < ActiveModel::Serializer
 
   def temp
     unless object.TMP_0.nil?
-      # T(°C) = T(K) - 273.15
-      return (object.TMP_0 - 273.15).round(1)  
+      if object.current_temp == 'c'
+        # T(°C) = T(K) - 273.15
+        return (object.TMP_0 - 273.15).round(1)
+      else
+        # T(°F) = T(K) × 9/5 - 459.67
+        return ((object.TMP_0 * 1.8) - 459.67).round(1)
+      end
     end
   end
 
   def wind_speed
     unless object.UGRD_1.nil? && object.VGRD_1.nil?
-      return (Math::sqrt((object.UGRD_1 ** 2) + (object.VGRD_1 ** 2))).round(1)    
+      # calculate wind speed in m/s
+      wind_speed_in_metresec = (Math::sqrt((object.UGRD_1 ** 2) + (object.VGRD_1 ** 2))).round(1)
+
+      if object.current_wind == 'm/s'
+        return wind_speed_in_metresec
+      elsif object.current_wind == 'mph'
+        # mph = m/s ÷ 0.44704
+        return (wind_speed_in_metresec / 0.44704).round(1)
+      elsif object.current_wind == 'km/h'
+        # km/h = m/s x 3.6
+        return (wind_speed_in_metresec * 3.6).round(1)
+      elsif object.current_wind == 'bft'
+        # Beaufort Wind Scale
+        # 0 B = < 0.3 m/s
+        if wind_speed_in_metresec < 0.3
+          return 0
+        # 1 B = >= 0.3 && <= 1.5 m/s   
+        elsif wind_speed_in_metresec >= 0.3 && wind_speed_in_metresec <= 1.5
+          return 1
+        # 2 B = >= 1.6 && <= 3.3 m/s 
+        elsif wind_speed_in_metresec >= 1.6 && wind_speed_in_metresec <= 3.3
+          return 2
+        # 3 B = >= 3.4 && <= 5.5 m/s
+        elsif wind_speed_in_metresec >= 3.4 && wind_speed_in_metresec <= 5.5
+          return 3
+        # 4 B = >= 5.6 && <= 7.9 m/s
+        elsif wind_speed_in_metresec >= 5.6 && wind_speed_in_metresec <= 7.9
+          return 4
+        # 5 B = >= 8 && <= 10.7 m/s
+        elsif wind_speed_in_metresec >= 8 && wind_speed_in_metresec <= 10.7
+          return 5
+        # 6 B = >= 10.8 && <= 13.8 m/s
+        elsif wind_speed_in_metresec >= 10.8 && wind_speed_in_metresec <= 13.8
+          return 6
+        # 7 B = >= 13.9 && <= 17.1 m/s
+        elsif wind_speed_in_metresec >= 13.9 && wind_speed_in_metresec <= 17.1
+          return 7
+        # 8 B = >= 17.2 && 20.7 m/s
+        elsif wind_speed_in_metresec >= 17.2 && wind_speed_in_metresec <= 20.7
+          return 8
+        # 9 B = >= 20.8 && <= 24.4 m/s
+        elsif wind_speed_in_metresec >= 20.8 && wind_speed_in_metresec <= 24.4
+          return 9
+        # 10 B = >= 24.5 && <= 28.4 m/s
+        elsif wind_speed_in_metresec >= 24.5 && wind_speed_in_metresec <= 28.4
+          return 10
+        # 11 B = >= 28.5 && <= 32.6 m/s
+        elsif wind_speed_in_metresec >= 28.5 && wind_speed_in_metresec <= 32.6
+          return 11
+        else
+        # 12 B >= 32.7 m/s
+          return 12   
+        end       
+
+      elsif object.current_wind == 'knots'
+        # kn = m/s * 1.94384449
+        return (wind_speed_in_metresec * 1.94384449).round(1)
+      end
     end
   end
 

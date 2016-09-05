@@ -1,4 +1,5 @@
 class Api::V1::Gfs < ActiveRecord::Base
+	attr_accessor :current_temp, :current_wind
 
   def self.interpolate_2_5(point)
     base_floor = point.to_f.floor
