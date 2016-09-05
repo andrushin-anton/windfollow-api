@@ -30,7 +30,7 @@ class Api::V1::User < ActiveRecord::Base
 
   attr_accessor :place
 
-  KEY = '1d272f038724b99d7a5e1f4839356543ce1d3c2f'
+  KEY = Rails.application.config.secret_key_base
 
 	#scope :authorize, -> (email, password) { where('email =? and password =?', email, Digest::MD5.hexdigest(password)) }
 
