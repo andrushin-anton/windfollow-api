@@ -1,6 +1,6 @@
 class Api::V1::UsersController < ApplicationController
   before_filter :authenticate_user!, only: [:index, :update, :show]
-  before_action :set_api_v1_user, only: [:show, :update, :destroy]
+  before_action :set_api_v1_user, only: [:show, :update, :destroy, :settings]
 
   # GET /api/v1/users
   # GET /api/v1/users.json
@@ -72,6 +72,15 @@ class Api::V1::UsersController < ApplicationController
     # end
   end
 
+  # PATCH/PUT /api/v1/users/1/settings
+  def settings
+    if @api_v1_user.update(api_v1_user_settings_params)
+      head :no_content
+    else
+      render json: @api_v1_user.errors, status: :unprocessable_entity
+    end
+  end
+
   # DELETE /api/v1/users/1
   # DELETE /api/v1/users/1.json
   def destroy
@@ -88,5 +97,9 @@ class Api::V1::UsersController < ApplicationController
 
     def api_v1_user_params
       params.permit(:email, :password, :first_name, :last_name)
+    end
+
+    def api_v1_user_settings_params
+      params.permit(:wind, :temp)
     end
 end

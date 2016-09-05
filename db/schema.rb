@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160831091710) do
+ActiveRecord::Schema.define(version: 20160905195341) do
 
   create_table "api_v1_followers", force: :cascade do |t|
     t.integer  "follower_id", limit: 4
@@ -197,6 +197,8 @@ ActiveRecord::Schema.define(version: 20160831091710) do
     t.string   "avatar_content_type", limit: 255
     t.integer  "avatar_file_size",    limit: 4
     t.datetime "avatar_updated_at"
+    t.string   "wind",                limit: 255
+    t.string   "temp",                limit: 255
   end
 
   create_table "delayed_jobs", force: :cascade do |t|

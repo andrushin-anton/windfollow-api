@@ -8,6 +8,8 @@ class Api::V1::User < ActiveRecord::Base
 	validates :first_name, presence: true, length: { maximum: 30 }, on: [:save]
 	validates :last_name, presence: true, length: { maximum: 30 }, on: [:save]
   validates :gender, :inclusion => { :in => ['m', 'f'] }, :allow_blank => true
+  validates :wind, :inclusion => { :in => ['metresec', 'milehour', 'kmhour', 'bft', 'knots'] }, :allow_blank => true
+  validates :temp, :inclusion => { :in => ['c', 'f'] }, :allow_blank => true
 
   # This method associates the attribute ":image" with a file attachment
   has_attached_file :avatar, styles: {
@@ -61,6 +63,8 @@ class Api::V1::User < ActiveRecord::Base
 
   def default_values
     self.rating ||= 0
+    self.wind ||= 'metresec'
+    self.temp ||= 'c'
 
     # places
     unless self.place.nil?

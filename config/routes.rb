@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     post 'users/password_refresh'
     post 'sport_user' => 'sport_user#create'
     put  'profile' => 'profile#update'
+    put  'users/:id/settings' => 'users#settings'
     get  'messages/:id/recepient' => 'messages#recepient'
     get  'city/:input' => 'city#autocomplete'
     get  'geo' => 'geo#complete'
