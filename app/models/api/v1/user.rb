@@ -27,6 +27,7 @@ class Api::V1::User < ActiveRecord::Base
   has_many :followers, :foreign_key => 'user_id'
   has_many :followings, :foreign_key => 'follower_id'
   has_many :spots
+  has_one :alerts
 
   attr_accessor :place
 
