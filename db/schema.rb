@@ -11,12 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160907121826) do
+ActiveRecord::Schema.define(version: 20160907193635) do
 
   create_table "api_v1_alerts", force: :cascade do |t|
     t.integer  "user_id",    limit: 4
     t.float    "distance",   limit: 24
     t.string   "time_alert", limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  create_table "api_v1_devices", force: :cascade do |t|
+    t.string   "name",       limit: 255
+    t.string   "token",      limit: 255
+    t.integer  "user_id",    limit: 4
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
   end

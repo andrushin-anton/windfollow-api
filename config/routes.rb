@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  namespace :api do  namespace :v1 do resources :devices, except: [:new, :edit] end end
   namespace :api do  namespace :v1 do resources :alerts, except: [:new, :edit] end end
   namespace :api do  namespace :v1 do resources :notifications, except: [:new, :edit] end end
   namespace :api do  namespace :v1 do resources :spot_estimates, except: [:new, :edit] end end
