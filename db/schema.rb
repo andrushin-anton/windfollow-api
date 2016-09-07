@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160907193635) do
+ActiveRecord::Schema.define(version: 20160907195614) do
 
   create_table "api_v1_alerts", force: :cascade do |t|
     t.integer  "user_id",    limit: 4
@@ -215,6 +215,8 @@ ActiveRecord::Schema.define(version: 20160907193635) do
     t.datetime "avatar_updated_at"
     t.string   "wind",                limit: 255
     t.string   "temp",                limit: 255
+    t.string   "geo_lat",             limit: 255
+    t.string   "geo_lon",             limit: 255
   end
 
   create_table "delayed_jobs", force: :cascade do |t|

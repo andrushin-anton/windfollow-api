@@ -17,17 +17,27 @@ class Api::V1::DevicesController < ApplicationController
   # POST /api/v1/devices
   # POST /api/v1/devices.json
   def create
-    unless params[:token].nil?
-      Api::V1::Device.where('token = ?', params[:token]).destroy_all
+  
+    # Save last known user's geo location
+    if !params[:geo_lat].nil? && !params[:geo_lon].nil?
+      @current_user.geo_lat = params[:geo_lat]
+      @current_user.geo_lon = params[:geo_lon]
+      @current_user.save
     end
 
-    @api_v1_device = Api::V1::Device.new(api_v1_device_params)
-    @api_v1_device.user_id = @current_user.id
+    @api_v1_device = Api::V1::Device.where('token = ? AND user_id = ? ', params[:token], @current_user.id).first
 
-    if @api_v1_device.save
-      render json: @api_v1_device, status: :created, location: @api_v1_device
+    if @api_v1_device.nil?
+      @api_v1_device = Api::V1::Device.new(api_v1_device_params)   
+      @api_v1_device.user_id = @current_user.id   
+      
+      if !@api_v1_device.save
+        render json: @api_v1_device.errors, status: :unprocessable_entity
+      else
+        head :no_content
+      end
     else
-      render json: @api_v1_device.errors, status: :unprocessable_entity
+      head :no_content
     end
   end
 
