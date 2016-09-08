@@ -46,11 +46,11 @@ class Api::V1::User < ActiveRecord::Base
   end
 
   def generate_token
-  	payload = {:user_id => self.id, :exripires_at => 1.month.from_now }
+  	payload = {:user_id => self.id, :exripires_at => 1.year.from_now }
   	# encrypt the payload
   	encrypted_data = Base64.urlsafe_encode64(AESCrypt.encrypt(payload.to_json, KEY))
   	# return json object containing token
-  	{:access_token => encrypted_data, :exripires_at => 1.month.from_now}.to_json
+  	{:access_token => encrypted_data, :exripires_at => 1.year.from_now}.to_json
   end
 
   def self.validate_token(token)

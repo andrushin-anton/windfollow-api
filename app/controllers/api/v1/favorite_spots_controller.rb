@@ -7,7 +7,7 @@ class Api::V1::FavoriteSpotsController < ApplicationController
   def index
     @api_v1_favorite_spots = Api::V1::FavoriteSpot.where('user_id = ?', @current_user.id).all
 
-    render json: @api_v1_favorite_spots
+    paginate json: @api_v1_favorite_spots
   end
 
   # GET /api/v1/favorite_spots/1
