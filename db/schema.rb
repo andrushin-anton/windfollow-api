@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160907195614) do
+ActiveRecord::Schema.define(version: 20160908103226) do
 
   create_table "api_v1_alerts", force: :cascade do |t|
     t.integer  "user_id",    limit: 4
@@ -27,6 +27,13 @@ ActiveRecord::Schema.define(version: 20160907195614) do
     t.integer  "user_id",    limit: 4
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
+  end
+
+  create_table "api_v1_favorite_spots", force: :cascade do |t|
+    t.integer  "user_id",    limit: 4
+    t.integer  "spot_id",    limit: 4
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
   end
 
   create_table "api_v1_followers", force: :cascade do |t|
