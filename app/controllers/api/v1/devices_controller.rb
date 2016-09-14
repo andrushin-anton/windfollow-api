@@ -17,11 +17,14 @@ class Api::V1::DevicesController < ApplicationController
   # POST /api/v1/devices
   # POST /api/v1/devices.json
   def create
-  
+
     # Save last known user's geo location
     if !params[:geo_lat].nil? && !params[:geo_lon].nil?
       @current_user.geo_lat = params[:geo_lat]
       @current_user.geo_lon = params[:geo_lon]
+      if !params[:timezone].nil?
+        @current_user.timezone = params[:timezone]
+      end
       @current_user.save
     end
 

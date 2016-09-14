@@ -10,6 +10,13 @@ class Api::V1::User < ActiveRecord::Base
   validates :gender, :inclusion => { :in => ['m', 'f'] }, :allow_blank => true
   validates :wind, :inclusion => { :in => ['m/s', 'mph', 'km/h', 'bft', 'knots'] }, :allow_blank => true
   validates :temp, :inclusion => { :in => ['c', 'f'] }, :allow_blank => true
+  validates :timezone, :inclusion => { :in => [
+    'UTC -11:00','UTC -10:00','UTC -09:00','UTC -08:00','UTC -07:00', 
+    'UTC -06:00','UTC -05:00','UTC -04:30','UTC -04:00','UTC -03:30','UTC -03:00','UTC -02:00','UTC -01:00', 
+    'UTC +00:00','UTC +01:00','UTC +02:00','UTC +03:00','UTC +03:30','UTC +03:00','UTC +04:00','UTC +04:30',
+    'UTC +05:00','UTC +05:30','UTC +05:45','UTC +06:00','UTC +06:30','UTC +07:00','UTC +08:00','UTC +09:00',
+    'UTC +09:30','UTC +10:00','UTC +11:00','UTC +12:00','UTC +12:45','UTC +13:00'
+    ] }, :allow_blank => true
 
   # This method associates the attribute ":image" with a file attachment
   has_attached_file :avatar, styles: {
@@ -68,6 +75,7 @@ class Api::V1::User < ActiveRecord::Base
     self.rating ||= 0
     self.wind ||= 'm/s'
     self.temp ||= 'c'
+    self.timezone ||= 'UTC +00:00'
 
     # places
     unless self.place.nil?
@@ -91,5 +99,87 @@ class Api::V1::User < ActiveRecord::Base
     self.password = new_password
     encrypt_password
     return new_password
+  end
+
+  def get_timezone_name(timezone)
+    all_timezones = {
+      'UTC -11:00' => 'International Date Line West',
+      'UTC -10:00' => 'Hawaii',
+      'UTC -09:00' => 'Alaska',
+      'UTC -08:00' => 'Pacific Time (US & Canada)',
+      'UTC -07:00' => 'Mountain Time (US & Canada)',
+      'UTC -06:00' => 'Central Time (US & Canada)',
+      'UTC -05:00' => 'Eastern Time (US & Canada)',
+      'UTC -04:30' => 'Caracas',
+      'UTC -04:00' => 'Atlantic Time (Canada)',
+      'UTC -03:30' => 'Newfoundland',
+      'UTC -03:00' => 'Brasilia',
+      'UTC -02:00' => 'Mid-Atlantic',
+      'UTC -01:00' => 'Azores',
+      'UTC +00:00' => 'London',
+      'UTC +01:00' => 'Amsterdam',
+      'UTC +02:00' => 'Athens',
+      'UTC +03:00' => 'Moscow',
+      'UTC +03:30' => 'Tehran',
+      'UTC +04:00' => 'Yerevan',
+      'UTC +04:30' => 'Kabul',
+      'UTC +05:00' => 'Tashkent',
+      'UTC +05:30' => 'Chennai',
+      'UTC +05:45' => 'Kathmandu',
+      'UTC +06:00' => 'Almaty',
+      'UTC +06:30' => 'Rangoon',
+      'UTC +07:00' => 'Bangkok',
+      'UTC +08:00' => 'Beijing',
+      'UTC +09:00' => 'Osaka',
+      'UTC +09:30' => 'Adelaide',
+      'UTC +10:00' => 'Brisbane',
+      'UTC +11:00' => 'New Caledonia',
+      'UTC +12:00' => 'Auckland',
+      'UTC +12:45' => 'Chatham Is.',
+      'UTC +13:00' => 'Samoa'
+    }
+
+    return all_timezones[timezone]
+  end
+
+  def get_timezone_value(timezone)
+    all_timezones = {
+      'UTC -11:00' => -11,
+      'UTC -10:00' => -10,
+      'UTC -09:00' => -9,
+      'UTC -08:00' => -8,
+      'UTC -07:00' => -7,
+      'UTC -06:00' => -6,
+      'UTC -05:00' => -5,
+      'UTC -04:30' => -4,
+      'UTC -04:00' => -4,
+      'UTC -03:30' => -3,
+      'UTC -03:00' => -3,
+      'UTC -02:00' => -2,
+      'UTC -01:00' => -1,
+      'UTC +00:00' => 0,
+      'UTC +01:00' => 1,
+      'UTC +02:00' => 2,
+      'UTC +03:00' => 3,
+      'UTC +03:30' => 3,
+      'UTC +04:00' => 4,
+      'UTC +04:30' => 4,
+      'UTC +05:00' => 5,
+      'UTC +05:30' => 5,
+      'UTC +05:45' => 5,
+      'UTC +06:00' => 6,
+      'UTC +06:30' => 6,
+      'UTC +07:00' => 7,
+      'UTC +08:00' => 8,
+      'UTC +09:00' => 9,
+      'UTC +09:30' => 9,
+      'UTC +10:00' => 10,
+      'UTC +11:00' => 11,
+      'UTC +12:00' => 12,
+      'UTC +12:45' => 12,
+      'UTC +13:00' => 13
+    }
+
+    return all_timezones[timezone]
   end
 end
