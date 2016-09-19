@@ -1,7 +1,7 @@
 require 'date'
 
 class Api::V1::ForecastController < ApplicationController
-  before_filter :authenticate_user!, only: [:gfs]
+  #before_filter :authenticate_user!, only: [:gfs]
 
   # GET /api/v1/forecast/gfs/:lat/:lon
   # GET /api/v1/forecast/gfs.json
@@ -35,8 +35,13 @@ class Api::V1::ForecastController < ApplicationController
       unless @data.nil?
         @data.each do |hour|
           # set users prefered settings
-          hour.current_temp = @current_user.temp
-          hour.current_wind = @current_user.wind
+          unless @current_user.nil?
+            hour.current_temp = @current_user.temp
+            hour.current_wind = @current_user.wind  
+          else 
+            hour.current_temp = 'c'
+            hour.current_wind = 'm/s'  
+          end        
 
           # calculate precipation
           unless hour.APCP_0.nil?
