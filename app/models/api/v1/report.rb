@@ -11,6 +11,7 @@ class Api::V1::Report < ActiveRecord::Base
 	def notify
 		# get report's spot
 		spot = Api::V1::Spot.find(self.spot_id)
+		send_push_notification = false
 
 		unless spot.nil?
 			# get users with alerts enabled
@@ -50,10 +51,17 @@ class Api::V1::Report < ActiveRecord::Base
 							notification.content = {:distance => distance, :event_user_id => event_user.id, :event_user_name => event_user.first_name + ' ' + event_user.last_name, :event_user_avatar => event_user.formated_avatar, :event_report_place => self.place }.to_json
 							notification.event_object_id = self.id
 							notification.save
+							# update flag
+							send_push_notification = true
 						end
 					end
 				end
 			end
+		end
+
+		# Create a new delayed job
+		if send_push_notification == true
+			SendReportPushJob.set(wait: 5.seconds).perform_later()
 		end
 	end
 

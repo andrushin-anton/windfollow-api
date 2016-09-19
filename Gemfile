@@ -39,7 +39,9 @@ gem 'capistrano', '~> 3.4.0'
 
 gem 'daemons'
 
-gem "figaro"
+gem 'figaro'
+
+gem 'rails-push-notifications', '~> 0.2.0'
 
 
 group :development do
