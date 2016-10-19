@@ -44,6 +44,14 @@ class Api::V1::SpotsController < ApplicationController
     render json: @api_v1_spot
   end
 
+  # GET /api/v1/spots/1/feed
+  # GET /api/v1/spots/1/feed.json
+  def feed
+    @api_v1_reports = Api::V1::Report.where('spot_id = ?', params[:id]).order('created_at desc').all
+
+    paginate json: @api_v1_reports
+  end
+
   # POST /api/v1/spots
   # POST /api/v1/spots.json
   def create

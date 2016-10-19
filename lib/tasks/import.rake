@@ -46,6 +46,12 @@ namespace :scraper do
 			end
 			user_model.save
 
+			i = i + 1
+
+			if i >= 10
+				exit
+			end
+
 		end
 		puts 'Saved users'
 	end

@@ -31,6 +31,9 @@ Rails.application.routes.draw do
     get  'report_images/:id/likes' => 'report_image_likes#likes'
     get  'report_images/:id/comments' => 'report_image_comments#comments'
     get  'forecast/gfs' => 'forecast#gfs'
+    get  'posts' => 'reports#posts'
+    get  'feed' => 'reports#feed'
+    get  'spots/:id/feed' => 'spots#feed'
     delete 'sport_user/:sport_id' => 'sport_user#destroy'
     end
   end
