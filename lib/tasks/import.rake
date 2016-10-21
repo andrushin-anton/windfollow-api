@@ -45,13 +45,6 @@ namespace :scraper do
 				user_model.avatar = open('http://www.gdeduet.ru/images/avatars/' + user['avatar'])
 			end
 			user_model.save
-
-			i = i + 1
-
-			if i >= 10
-				exit
-			end
-
 		end
 		puts 'Saved users'
 	end
@@ -103,32 +96,32 @@ namespace :scraper do
 
 		i = 1
 
-		# result.each do |report|
+		result.each do |report|
 
-		# 	if report['spot_id'].to_i < 431
-		# 		report_model = Api::V1::Report.new
-		# 		report_model.notify_people = false
-		# 		report_model.id = report['id']
-		# 		report_model.spot_id = report['spot_id']
-		# 		report_model.content = report['comment']
-		# 		report_model.user_id = report['user_id']
-		# 		report_model.place = report['location_name']
-		# 		report_model.wind = report['mid_wind'].to_s + '-' + report['max_wind'].to_s
-		# 		report_model.direction = report['direction']
-		# 		report_model.updated_at = Time.at(report['created'].to_i).to_datetime
-		# 		report_model.created_at = Time.at(report['created'].to_i).to_datetime
-		# 		if report_model.save
-		# 			# save report image
-		# 			if report['photo'] != ''
-		# 				report_image_model = Api::V1::ReportImage.new
-		# 				report_image_model.user_id = report['user_id']
-		# 				report_image_model.report_id = report_model.id
-		# 				report_image_model.image = open('http://www.gdeduet.ru/images/reports/' + report['photo'])
-		# 				report_image_model.save
-		# 			end
-		# 		end
-		# 	end	
-		# end
+			if report['spot_id'].to_i < 431
+				report_model = Api::V1::Report.new
+				report_model.notify_people = false
+				report_model.id = report['id']
+				report_model.spot_id = report['spot_id']
+				report_model.content = report['comment']
+				report_model.user_id = report['user_id']
+				report_model.place = report['location_name']
+				report_model.wind = report['mid_wind'].to_s + '-' + report['max_wind'].to_s
+				report_model.direction = report['direction']
+				report_model.updated_at = Time.at(report['created'].to_i).to_datetime
+				report_model.created_at = Time.at(report['created'].to_i).to_datetime
+				if report_model.save
+					# save report image
+					if report['photo'] != ''
+						report_image_model = Api::V1::ReportImage.new
+						report_image_model.user_id = report['user_id']
+						report_image_model.report_id = report_model.id
+						report_image_model.image = open('http://www.gdeduet.ru/images/reports/' + report['photo'])
+						report_image_model.save
+					end
+				end
+			end	
+		end
 
 		puts 'Saved reports'
 
@@ -172,5 +165,136 @@ namespace :scraper do
 		end
 
 		puts 'Saved report likes'
+	end
+
+	task user_photos: :environment do
+		require 'open-uri'
+		require 'json'
+
+		# Prepare API request (ALBUM)
+		uri_albom = URI.parse('http://www.gdeduet.ru/api/everything/22042016/user_photo_albom')
+		# Submit request
+		result_album = JSON.parse(open(uri_albom).read)
+
+		sleep(1)
+
+		# Prepare API request (PHOTO)
+		uri_photos = URI.parse('http://www.gdeduet.ru/api/everything/22042016/user_photos')
+		# Submit request
+		result_photos = JSON.parse(open(uri_photos).read)
+
+		sleep(1)
+
+		# Prepare API request (COMMENTS)
+		uri_photo_comments = URI.parse('http://www.gdeduet.ru/api/everything/22042016/user_photo_comments')
+		# Submit request
+		result_photo_comments = JSON.parse(open(uri_photo_comments).read)
+
+		sleep(1)
+
+		# Prepare API request (LIKES)
+		uri_photo_likes = URI.parse('http://www.gdeduet.ru/api/everything/22042016/user_photo_likes')
+		# Submit request
+		result_photo_likes = JSON.parse(open(uri_photo_likes).read)
+
+		sleep(1)
+
+		# Prepare API request (SPOT PHOTOS)
+		uri_spot_photos = URI.parse('http://www.gdeduet.ru/api/everything/22042016/spot_photos')
+		# Submit request
+		result_spot_photos = JSON.parse(open(uri_spot_photos).read)		
+
+		sleep(1)
+
+		# Prepare API request (SPOT PHOTO LIKES)
+		uri_spot_photo_likes = URI.parse('http://www.gdeduet.ru/api/everything/22042016/spot_photo_likes')
+		# Submit request
+		result_spot_photo_likes = JSON.parse(open(uri_spot_photo_likes).read)		
+
+
+		i = 1
+
+		result_spot_photos.each do |spot_photo|
+			if spot_photo['spot_id'].to_i < 431
+				report_model = Api::V1::Report.new
+				report_model.notify_people = false
+				report_model.spot_id = spot_photo['spot_id']
+				report_model.user_id = spot_photo['user_id']
+				report_model.updated_at = Time.at(spot_photo['created'].to_i).to_datetime
+				report_model.created_at = Time.at(spot_photo['created'].to_i).to_datetime
+				if report_model.save
+					report_image_model = Api::V1::ReportImage.new
+					report_image_model.user_id = spot_photo['user_id']
+					report_image_model.report_id = report_model.id
+					report_image_model.image = open('http://www.gdeduet.ru/images/spots_photogallery/' + spot_photo['img'])
+					if report_image_model.save
+						result_spot_photo_likes.each do |spot_like|
+							if spot_like['photo_id'] == spot_photo['id']
+									report_image_like_model = Api::V1::ReportImageLike.new
+									report_image_like_model.notify_people = false
+									report_image_like_model.user_id = spot_like['user_id']
+									report_image_like_model.report_image_id = report_image_model.id
+									report_image_like_model.save
+							end
+						end
+					end
+				end				
+			end
+		end
+
+		puts 'Saved spot photos'
+
+		result_album.each do |album|
+			album_spot_id = album['spot_id']
+
+			if album['spot_id'].to_i < 431
+				album_spot_id = 0
+			end
+			report_model = Api::V1::Report.new
+			report_model.notify_people = false
+			report_model.spot_id = album_spot_id
+			report_model.content = album['title']
+			report_model.user_id = album['user_id']
+			report_model.updated_at = Time.at(album['created'].to_i).to_datetime
+			report_model.created_at = Time.at(album['created'].to_i).to_datetime
+			if report_model.save
+				# save report image
+				result_photos.each do |photo|
+					if photo['albom_id'] == album['id']
+						report_image_model = Api::V1::ReportImage.new
+						report_image_model.user_id = album['user_id']
+						report_image_model.report_id = report_model.id
+						report_image_model.image = open('http://www.gdeduet.ru/images/user_photos/' + photo['img'])
+						if report_image_model.save
+							# Image Comments
+							result_photo_comments.each do |comment|
+								if photo['id'] == comment['photo_id']
+									report_image_comment_model = Api::V1::ReportImageComment.new
+									report_image_comment_model.notify_people = false
+									report_image_comment_model.report_image_id = report_image_model.id
+									report_image_comment_model.user_id = comment['user_id']
+									report_image_comment_model.content = comment['comment']
+									report_image_comment_model.updated_at = Time.at(comment['created'].to_i).to_datetime
+									report_image_comment_model.created_at = Time.at(comment['created'].to_i).to_datetime
+									report_image_comment_model.save
+								end
+							end
+
+							# Image Likes
+							result_photo_likes.each do |like|
+								if photo['id'] == like['photo_id']
+									report_image_like_model = Api::V1::ReportImageLike.new
+									report_image_like_model.notify_people = false
+									report_image_like_model.user_id = like['user_id']
+									report_image_like_model.report_image_id = report_image_model.id
+									report_image_like_model.save
+								end
+							end
+						end
+					end
+				end
+			end
+		end
+		puts 'Saved user photos'
 	end
 end
