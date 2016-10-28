@@ -41,7 +41,7 @@ namespace :scraper do
 			user_model.wind = 'm/s'
 			user_model.temp = 'c'
 			user_model.timezone = 'UTC +00:00'
-			if user['avatar'] != '_none.jpg'
+			if user['avatar'] != '_none_.jpg'
 				user_model.avatar = open('http://www.gdeduet.ru/images/avatars/' + user['avatar'])
 			end
 			user_model.save
