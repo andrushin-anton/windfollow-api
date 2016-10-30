@@ -297,4 +297,64 @@ namespace :scraper do
 		end
 		puts 'Saved user photos'
 	end
+
+	task favorites: :environment do
+		require 'open-uri'
+		require 'json'
+
+		# Prepare API request
+		uri = URI.parse('http://www.gdeduet.ru/api/everything/22042016/user_spots')
+
+		# Submit request
+		result = JSON.parse(open(uri).read)
+
+		# Clear old data
+		Api::V1::FavoriteSpot.destroy_all
+
+		i = 1
+
+		result.each do |favorite_spot|
+
+			if favorite_spot['spot_id'].to_i < 431
+				favorite_model = Api::V1::FavoriteSpot.new
+			  favorite_model.spot_id = favorite_spot['spot_id']
+			  favorite_model.user_id = favorite_spot['user_id']
+			  favorite_model.save
+			end
+		end
+		puts 'Saved favorite spots'
+	end
+
+	task friends: :environment do
+		require 'open-uri'
+		require 'json'
+
+		# Prepare API request
+		uri = URI.parse('http://www.gdeduet.ru/api/everything/22042016/friends')
+
+		# Submit request
+		result = JSON.parse(open(uri).read)
+
+		# Clear old data
+		Api::V1::Follower.destroy_all
+
+		i = 1
+
+		result.each do |friend|
+
+			follower_model = Api::V1::Follower.new
+		  follower_model.follower_id = friend['from_id']
+		  follower_model.user_id = friend['to_id']
+		  follower_model.save
+
+		  if friend['status'].to_i == 1
+		  	follower_model = Api::V1::Follower.new
+   		  follower_model.follower_id = friend['to_id']
+	  	  follower_model.user_id = friend['from_id']
+		    follower_model.save
+		  end
+			
+		end
+		puts 'Saved friends'
+	end
 end
