@@ -13,38 +13,40 @@ namespace :scraper do
 		result = JSON.parse(open(uri).read)
 
 		# Clear old data
-		Api::V1::User.destroy_all
+		# Api::V1::User.destroy_all
 
 		i = 1
 
 		result.each do |user|
 
 			# Add user
-			user_model = Api::V1::User.new
-			user_model.id = user['id']
-			user_model.email = user['email']
-			user_model.password = user['password']
-			user_model.first_name = user['firstname']
-			user_model.last_name = user['lastname']
-			user_model.rating = user['rating']
-			user_model.about = ''
-			user_model.birth_date = user['birthday']
-			if user['gender'] = 'male'
-				user_model.gender = 'm'
-			else
-				user_model.gender = 'f'
-			end
-			user_model.phone = user['phone']
-			user_model.web_site = user['website']
-			user_model.country = ''
-			user_model.city = ''
-			user_model.wind = 'm/s'
-			user_model.temp = 'c'
-			user_model.timezone = 'UTC +00:00'
-			if user['avatar'] != '_none_.jpg'
-				user_model.avatar = open('http://www.gdeduet.ru/images/avatars/' + user['avatar'])
-			end
-			user_model.save
+			unless Api::V1::User.where('email = ? ', user['email']).first
+				user_model = Api::V1::User.new
+				user_model.id = user['id']
+				user_model.email = user['email']
+				user_model.password = user['password']
+				user_model.first_name = user['firstname']
+				user_model.last_name = user['lastname']
+				user_model.rating = user['rating']
+				user_model.about = ''
+				user_model.birth_date = user['birthday']
+				if user['gender'] = 'male'
+					user_model.gender = 'm'
+				else
+					user_model.gender = 'f'
+				end
+				user_model.phone = user['phone']
+				user_model.web_site = user['website']
+				user_model.country = ''
+				user_model.city = ''
+				user_model.wind = 'm/s'
+				user_model.temp = 'c'
+				user_model.timezone = 'UTC +00:00'
+				if user['avatar'] != '_none_.jpg'
+					user_model.avatar = open('http://www.gdeduet.ru/images/avatars/' + user['avatar'])
+				end
+				user_model.save	
+				end
 		end
 		puts 'Saved users'
 	end
