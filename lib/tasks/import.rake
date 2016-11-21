@@ -92,34 +92,39 @@ namespace :scraper do
 		result = JSON.parse(open(uri).read)
 
 		# Clear old data
-		Api::V1::Report.destroy_all
-		Api::V1::ReportImage.destroy_all
+		# Api::V1::Report.destroy_all
+		# Api::V1::ReportImage.destroy_all
 		Api::V1::ReportComment.destroy_all
+
+		accepted_reports = []
 
 		i = 1
 
 		result.each do |report|
 
 			if report['spot_id'].to_i < 431
-				report_model = Api::V1::Report.new
-				report_model.notify_people = false
-				report_model.id = report['id']
-				report_model.spot_id = report['spot_id']
-				report_model.content = report['comment']
-				report_model.user_id = report['user_id']
-				report_model.place = report['location_name']
-				report_model.wind = report['mid_wind'].to_s + '-' + report['max_wind'].to_s
-				report_model.direction = report['direction']
-				report_model.updated_at = Time.at(report['created'].to_i).to_datetime
-				report_model.created_at = Time.at(report['created'].to_i).to_datetime
-				if report_model.save
-					# save report image
-					if report['photo'] != ''
-						report_image_model = Api::V1::ReportImage.new
-						report_image_model.user_id = report['user_id']
-						report_image_model.report_id = report_model.id
-						report_image_model.image = open('http://www.gdeduet.ru/images/reports/' + report['photo'])
-						report_image_model.save
+				accepted_reports << report['id']
+				unless Api::V1::Report.where('id = ? ', report['id']).first
+					report_model = Api::V1::Report.new
+					report_model.notify_people = false
+					report_model.id = report['id']
+					report_model.spot_id = report['spot_id']
+					report_model.content = report['comment']
+					report_model.user_id = report['user_id']
+					report_model.place = report['location_name']
+					report_model.wind = report['mid_wind'].to_s + '-' + report['max_wind'].to_s
+					report_model.direction = report['direction']
+					report_model.updated_at = Time.at(report['created'].to_i).to_datetime
+					report_model.created_at = Time.at(report['created'].to_i).to_datetime
+					if report_model.save
+						# save report image
+						if report['photo'] != ''
+							report_image_model = Api::V1::ReportImage.new
+							report_image_model.user_id = report['user_id']
+							report_image_model.report_id = report_model.id
+							report_image_model.image = open('http://www.gdeduet.ru/images/reports/' + report['photo'])
+							report_image_model.save
+						end
 					end
 				end
 			end	
@@ -137,14 +142,16 @@ namespace :scraper do
 		result_comments = JSON.parse(open(uri).read)
 
 		result_comments.each do |comment|
-			report_comment_model = Api::V1::ReportComment.new
-			report_comment_model.notify_people = false
-			report_comment_model.report_id = comment['report_id']
-			report_comment_model.user_id = comment['user_id']
-			report_comment_model.content = comment['comment']
-			report_comment_model.created_at = Time.at(comment['created'].to_i).to_datetime
-			report_comment_model.updated_at = Time.at(comment['created'].to_i).to_datetime
-			report_comment_model.save
+			if accepted_reports.include? comment['report_id']
+				report_comment_model = Api::V1::ReportComment.new
+				report_comment_model.notify_people = false
+				report_comment_model.report_id = comment['report_id']
+				report_comment_model.user_id = comment['user_id']
+				report_comment_model.content = comment['comment']
+				report_comment_model.created_at = Time.at(comment['created'].to_i).to_datetime
+				report_comment_model.updated_at = Time.at(comment['created'].to_i).to_datetime
+				report_comment_model.save
+			end
 		end
 
 		puts 'Saved report comments'
@@ -159,11 +166,13 @@ namespace :scraper do
 		result_likes = JSON.parse(open(uri).read)
 
 		result_likes.each do |like|
-			report_like_model = Api::V1::ReportLike.new
-			report_like_model.notify_people = false
-			report_like_model.report_id = like['report_id']
-			report_like_model.user_id = like['user_id']
-			report_like_model.save
+			if accepted_reports.include? like['report_id']
+				report_like_model = Api::V1::ReportLike.new
+				report_like_model.notify_people = false
+				report_like_model.report_id = like['report_id']
+				report_like_model.user_id = like['user_id']
+				report_like_model.save
+			end
 		end
 
 		puts 'Saved report likes'
