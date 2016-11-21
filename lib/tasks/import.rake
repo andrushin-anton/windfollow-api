@@ -43,6 +43,7 @@ namespace :scraper do
 				user_model.temp = 'c'
 				user_model.timezone = 'UTC +00:00'
 				if user['avatar'] != '_none_.jpg'
+					sleep(0.3)
 					user_model.avatar = open('http://www.gdeduet.ru/images/avatars/' + user['avatar'])
 				end
 				user_model.save	
@@ -119,6 +120,7 @@ namespace :scraper do
 					if report_model.save
 						# save report image
 						if report['photo'] != ''
+							sleep(0.3)
 							report_image_model = Api::V1::ReportImage.new
 							report_image_model.user_id = report['user_id']
 							report_image_model.report_id = report_model.id
@@ -187,35 +189,35 @@ namespace :scraper do
 		# Submit request
 		result_album = JSON.parse(open(uri_albom).read)
 
-		sleep(1)
+		sleep(0.3)
 
 		# Prepare API request (PHOTO)
 		uri_photos = URI.parse('http://www.gdeduet.ru/api/everything/22042016/user_photos')
 		# Submit request
 		result_photos = JSON.parse(open(uri_photos).read)
 
-		sleep(1)
+		sleep(0.3)
 
 		# Prepare API request (COMMENTS)
 		uri_photo_comments = URI.parse('http://www.gdeduet.ru/api/everything/22042016/user_photo_comments')
 		# Submit request
 		result_photo_comments = JSON.parse(open(uri_photo_comments).read)
 
-		sleep(1)
+		sleep(0.3)
 
 		# Prepare API request (LIKES)
 		uri_photo_likes = URI.parse('http://www.gdeduet.ru/api/everything/22042016/user_photo_likes')
 		# Submit request
 		result_photo_likes = JSON.parse(open(uri_photo_likes).read)
 
-		sleep(1)
+		sleep(0.3)
 
 		# Prepare API request (SPOT PHOTOS)
 		uri_spot_photos = URI.parse('http://www.gdeduet.ru/api/everything/22042016/spot_photos')
 		# Submit request
 		result_spot_photos = JSON.parse(open(uri_spot_photos).read)		
 
-		sleep(1)
+		sleep(0.3)
 
 		# Prepare API request (SPOT PHOTO LIKES)
 		uri_spot_photo_likes = URI.parse('http://www.gdeduet.ru/api/everything/22042016/spot_photo_likes')
@@ -234,6 +236,7 @@ namespace :scraper do
 				report_model.updated_at = Time.at(spot_photo['created'].to_i).to_datetime
 				report_model.created_at = Time.at(spot_photo['created'].to_i).to_datetime
 				if report_model.save
+					sleep(0.3)
 					report_image_model = Api::V1::ReportImage.new
 					report_image_model.user_id = spot_photo['user_id']
 					report_image_model.report_id = report_model.id
@@ -272,6 +275,7 @@ namespace :scraper do
 				# save report image
 				result_photos.each do |photo|
 					if photo['albom_id'] == album['id']
+						sleep(0.3)
 						report_image_model = Api::V1::ReportImage.new
 						report_image_model.user_id = album['user_id']
 						report_image_model.report_id = report_model.id
