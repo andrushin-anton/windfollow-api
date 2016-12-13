@@ -90,14 +90,14 @@ class Api::V1::User < ActiveRecord::Base
     self.gender.nil?
   end
 
-  # Hashing passwords with md5 which is a bad idea, but we have to, because there are plenty old accounts that have their passwords hashed.
-  def encrypt_password(new_password)
-  	self.password = Digest::MD5.hexdigest(new_password)
+  # Hashing passwords with md5 which is a bad idea, but we have to, because there are plenty old accounts that have their passwords hashed
+  def encrypt_password
+  	self.password = Digest::MD5.hexdigest(self.password)
   end
 
   def password_refresh
     new_password = rand(0..9).to_s+''+rand(0..9).to_s+''+rand(0..9).to_s+''+rand(0..9).to_s+''+rand(0..9).to_s+''+rand(0..9).to_s+''
-    encrypt_password(new_password)
+    self.password = new_password
     return new_password
   end
 
