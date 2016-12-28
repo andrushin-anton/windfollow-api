@@ -46,8 +46,11 @@ namespace :scraper do
 					sleep(0.3)
 					user_model.avatar = open('http://www.gdeduet.ru/images/avatars/' + user['avatar'])
 				end
-				user_model.save	
+				def user_model.encrypt_password
+					# overwrite/ do nothing because we don't need to encrypt password that has been encrypted
 				end
+				user_model.save	
+			end				
 		end
 		puts 'Saved users'
 	end
