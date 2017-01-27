@@ -2,7 +2,7 @@ require 'digest/md5'
 require "base64"
 
 class Api::V1::User < ActiveRecord::Base
-	validates :email, presence: true, length: { maximum: 70 }, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }
+	validates :email, presence: true, uniqueness: true, length: { maximum: 70 }, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }
 	validates :password, presence: true, length: { in: 6..70 }
 	validates :email, :uniqueness => true, on: [:save]
 	validates :first_name, presence: true, length: { maximum: 30 }, on: [:save]
