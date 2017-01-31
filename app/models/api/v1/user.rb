@@ -27,7 +27,8 @@ class Api::V1::User < ActiveRecord::Base
   # Validate the attached image is image/jpg, image/png, etc
   validates_attachment_content_type :avatar, :content_type => /\Aimage\/.*\Z/
 
-	before_save :default_values, :encrypt_password
+	before_save :default_values
+  before_create :encrypt_password
 
   has_many :sport_users
   has_many :sports, through: :sport_users
