@@ -5,7 +5,12 @@ class Api::V1::SpotsController < ApplicationController
   # GET /api/v1/spots
   # GET /api/v1/spots.json
   def index
-    @api_v1_spots = Api::V1::Spot.all
+    # Sort by nearest to user
+    unless @current_user.geo_lat.nil?
+      @api_v1_spots = Api::V1::Spot.order("(POW((geo_lon - #{@current_user.geo_lon}),2) + POW((geo_lat - #{@current_user.geo_lat}),2))").all    
+    else 
+      @api_v1_spots = Api::V1::Spot.order('rating DESC').all
+    end
 
     unless params[:search].nil?
       @api_v1_spots = Api::V1::Spot.where('name like :search or country like :search or city like :search', search: "%#{params[:search]}%").all
