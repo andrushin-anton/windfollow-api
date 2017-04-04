@@ -6,7 +6,7 @@ class Api::V1::UsersController < ApplicationController
   # GET /api/v1/users.json
   def index
 
-    @api_v1_users = Api::V1::User.all
+    @api_v1_users = Api::V1::User.order('rating DESC').all
     
     unless params[:followers].nil?
       @api_v1_users = Api::V1::Follower.where('follower_id = ?', @current_user.id).all
