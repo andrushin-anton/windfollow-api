@@ -1,0 +1,29 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  sensor_id: 1
+  wind: MyString
+  mid: MyString
+  lwind: MyString
+  dir: MyString
+  temp1: MyString
+  temp2: MyString
+  h: MyString
+  p: MyString
+  dew_point: MyString
+  alarm: MyString
+  u_out: MyString
+
+two:
+  sensor_id: 1
+  wind: MyString
+  mid: MyString
+  lwind: MyString
+  dir: MyString
+  temp1: MyString
+  temp2: MyString
+  h: MyString
+  p: MyString
+  dew_point: MyString
+  alarm: MyString
+  u_out: MyString

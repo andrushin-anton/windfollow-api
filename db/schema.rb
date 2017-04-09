@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160919200041) do
+ActiveRecord::Schema.define(version: 20170406194615) do
 
   create_table "api_v1_alerts", force: :cascade do |t|
     t.integer  "user_id",    limit: 4
@@ -93,9 +93,9 @@ ActiveRecord::Schema.define(version: 20160919200041) do
   create_table "api_v1_messages", force: :cascade do |t|
     t.integer  "sender_id",    limit: 4
     t.integer  "recepient_id", limit: 4
-    t.string   "content",      limit: 255
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.text     "content",      limit: 65535
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
   end
 
   create_table "api_v1_notifications", force: :cascade do |t|
@@ -110,9 +110,9 @@ ActiveRecord::Schema.define(version: 20160919200041) do
   create_table "api_v1_report_comments", force: :cascade do |t|
     t.integer  "report_id",  limit: 4
     t.integer  "user_id",    limit: 4
-    t.string   "content",    limit: 255
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.text     "content",    limit: 65535
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
   end
 
   create_table "api_v1_report_image_comments", force: :cascade do |t|
@@ -155,6 +155,32 @@ ActiveRecord::Schema.define(version: 20160919200041) do
     t.string   "place",      limit: 255
     t.string   "wind",       limit: 255
     t.string   "direction",  limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  create_table "api_v1_sensor_data", force: :cascade do |t|
+    t.integer  "sensor_id",  limit: 4
+    t.string   "wind",       limit: 255
+    t.string   "mid",        limit: 255
+    t.string   "lwind",      limit: 255
+    t.string   "dir",        limit: 255
+    t.string   "temp1",      limit: 255
+    t.string   "temp2",      limit: 255
+    t.string   "h",          limit: 255
+    t.string   "p",          limit: 255
+    t.string   "dew_point",  limit: 255
+    t.string   "alarm",      limit: 255
+    t.string   "u_out",      limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  create_table "api_v1_sensors", force: :cascade do |t|
+    t.string   "name",       limit: 255
+    t.string   "slug",       limit: 255
+    t.string   "geo_lat",    limit: 255
+    t.string   "geo_lon",    limit: 255
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
   end

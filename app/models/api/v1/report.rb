@@ -78,22 +78,22 @@ class Api::V1::Report < ActiveRecord::Base
 	# the shortest distance over the earth’s surface – giving an ‘as-the-crow-flies’
 	# distance between the points (ignoring any hills they fly over, of course!)
 	# retuns distans in km
-	def haversine(lat1, lon1, lat2, lon2) 
+	def self.haversine(lat1, lon1, lat2, lon2) 
 
 		r = 6371e3; # metres (Earth radius) 
-    φ1 = self.toRadians(lat1);
-    φ2 = self.toRadians(lat2);
-    Δφ = self.toRadians(lat2-lat1);
-    Δλ = self.toRadians(lon2-lon1);
+		φ1 = self.toRadians(lat1);
+		φ2 = self.toRadians(lat2);
+		Δφ = self.toRadians(lat2-lat1);
+		Δλ = self.toRadians(lon2-lon1);
 
-    a = Math::sin(Δφ/2) * Math::sin(Δφ/2) + Math::cos(φ1) * Math::cos(φ2) * Math::sin(Δλ/2) * Math::sin(Δλ/2);
+		a = Math::sin(Δφ/2) * Math::sin(Δφ/2) + Math::cos(φ1) * Math::cos(φ2) * Math::sin(Δλ/2) * Math::sin(Δλ/2);
 
-    c = 2 * Math::atan2(Math::sqrt(a), Math::sqrt(1-a));
+		c = 2 * Math::atan2(Math::sqrt(a), Math::sqrt(1-a));
 
-    d = ((r * c) * 0.001).round(2);
+		d = ((r * c) * 0.001).round(2);
 	end
 
-	def toRadians(degrees)
+	def self.toRadians(degrees)
 		degrees * Math::PI / 180
 	end
 end

@@ -34,6 +34,9 @@ Rails.application.routes.draw do
     get  'posts' => 'reports#posts'
     get  'feed' => 'reports#feed'
     get  'spots/:id/feed' => 'spots#feed'
+    get  'sensors/in/:slug' => 'sensors#in'
+    get  'sensors/get/:slug' => 'sensors#get'
+    get  'sensors/nearest/:spot' => 'sensors#nearest'
     delete 'sport_user/:sport_id' => 'sport_user#destroy'
     end
   end
