@@ -24,10 +24,10 @@ class Api::V1::ReportsController < ApplicationController
     paginate json: @api_v1_reports
   end
 
-  # GET /api/v1/feed
+  # GET /api/v1/feed/:user_id
   # GET /api/v1/feed.json
   def feed
-    @api_v1_reports = Api::V1::Report.where('user_id = ?', @current_user.id).order('created_at desc').all
+    @api_v1_reports = Api::V1::Report.where('user_id = ?', params[:user_id]).order('created_at desc').all
 
     paginate json: @api_v1_reports
   end

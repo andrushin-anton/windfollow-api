@@ -32,7 +32,7 @@ Rails.application.routes.draw do
     get  'report_images/:id/comments' => 'report_image_comments#comments'
     get  'forecast/gfs' => 'forecast#gfs'
     get  'posts' => 'reports#posts'
-    get  'feed' => 'reports#feed'
+    get  'feed/:user_id' => 'reports#feed'
     get  'spots/:id/feed' => 'spots#feed'
     get  'sensors/in/:slug' => 'sensors#in'
     get  'sensors/get/:slug' => 'sensors#get'

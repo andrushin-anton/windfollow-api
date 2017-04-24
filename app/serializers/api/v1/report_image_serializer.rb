@@ -1,5 +1,5 @@
 class Api::V1::ReportImageSerializer < ActiveModel::Serializer
-  attributes :id, :report_id, :user_id, :image, :comments, :likes
+  attributes :id, :report_id, :user_id, :image, :comments, :likes, :created_at, :updated_at
 
   def comments
   	object.report_image_comments.count(:all)
