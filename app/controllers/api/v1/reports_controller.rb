@@ -35,6 +35,14 @@ class Api::V1::ReportsController < ApplicationController
   # GET /api/v1/reports/1
   # GET /api/v1/reports/1.json
   def show
+    # increase counter
+    if Api::V1::ReportViewsCount.where('report_id = ? AND user_id = ?', @api_v1_report.id, @current_user.id).first.nil?
+      report_count = Api::V1::ReportViewsCount.new
+      report_count.user_id = @current_user.id
+      report_count.report_id = @api_v1_report.id
+      report_count.save
+    end
+    
     render json: @api_v1_report
   end
 

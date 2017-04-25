@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170409220832) do
+ActiveRecord::Schema.define(version: 20170425194610) do
 
   create_table "api_v1_alerts", force: :cascade do |t|
     t.integer  "user_id",    limit: 4
@@ -149,6 +149,15 @@ ActiveRecord::Schema.define(version: 20170409220832) do
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
   end
+
+  create_table "api_v1_report_views_counts", force: :cascade do |t|
+    t.integer  "report_id",  limit: 4
+    t.integer  "user_id",    limit: 4
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  add_index "api_v1_report_views_counts", ["report_id"], name: "index_api_v1_report_views_counts_on_report_id", using: :btree
 
   create_table "api_v1_reports", force: :cascade do |t|
     t.integer  "spot_id",    limit: 4

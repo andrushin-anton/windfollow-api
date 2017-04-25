@@ -4,6 +4,7 @@ class Api::V1::Report < ActiveRecord::Base
 	has_many :report_comments
 	has_many :report_likes
 	has_many :report_images
+	has_many :report_views_count
 	belongs_to :user
 
 	after_create :notify
