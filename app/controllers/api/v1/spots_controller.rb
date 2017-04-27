@@ -90,6 +90,18 @@ class Api::V1::SpotsController < ApplicationController
     end
   end
 
+  # DELETE /api/v1/spots/unsubscribe/1
+  # DELETE /api/v1/spots/unsubscribe/1.json
+  def unsubscribe
+    user_spot = Api::V1::UserSpot.where('spot_id = ? AND user_id = ? ', params[:id], @current_user.id).first
+
+    unless user_spot.nil?
+      user_spot.destroy
+    end
+
+    head :no_content
+  end
+
   private
 
     def set_api_v1_spot

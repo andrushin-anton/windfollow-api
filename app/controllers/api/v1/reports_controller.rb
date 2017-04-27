@@ -6,9 +6,9 @@ class Api::V1::ReportsController < ApplicationController
   # GET /api/v1/reports.json
   def index
     followings = Api::V1::Follower.where('follower_id = ?', @current_user.id).all
-    favorite_spots = Api::V1::FavoriteSpot.where('user_id = ?', @current_user.id).all
+    user_spots = Api::V1::UserSpot.where('user_id = ?', @current_user.id).all
 
-    @api_v1_reports = Api::V1::Report.where('user_id IN(?) OR spot_id IN(?) OR user_id = ?', followings.map(&:user_id), favorite_spots.map(&:spot_id), @current_user.id).order('created_at desc').all
+    @api_v1_reports = Api::V1::Report.where('user_id IN(?) OR spot_id IN(?) OR user_id = ?', followings.map(&:user_id), user_spots.map(&:spot_id), @current_user.id).order('created_at desc').all
 
     paginate json: @api_v1_reports
   end
@@ -17,9 +17,9 @@ class Api::V1::ReportsController < ApplicationController
   # GET /api/v1/posts.json
   def posts
     followings = Api::V1::Follower.where('follower_id = ?', @current_user.id).all
-    favorite_spots = Api::V1::FavoriteSpot.where('user_id = ?', @current_user.id).all
+    user_spots = Api::V1::UserSpot.where('user_id = ?', @current_user.id).all
 
-    @api_v1_reports = Api::V1::Report.where('direction IS NULL AND (user_id IN(?) OR spot_id IN(?) OR user_id = ?)', followings.map(&:user_id), favorite_spots.map(&:spot_id), @current_user.id).order('created_at desc').all
+    @api_v1_reports = Api::V1::Report.where('direction IS NULL AND (user_id IN(?) OR spot_id IN(?) OR user_id = ?)', followings.map(&:user_id), user_spots.map(&:spot_id), @current_user.id).order('created_at desc').all
 
     paginate json: @api_v1_reports
   end
