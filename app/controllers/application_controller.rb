@@ -45,4 +45,11 @@ class ApplicationController < ActionController::API
     	return unauthenticated!
     end
   end
+
+	def update_last_activity!
+		user_activity = Api::V1::UserActivity.where(id: @current_user.id).first_or_initialize
+		user_activity.user_id = @current_user.id
+		user_activity.updated_at = DateTime.now
+		user_activity.save
+	end
 end

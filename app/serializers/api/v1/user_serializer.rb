@@ -1,5 +1,5 @@
 class Api::V1::UserSerializer < ActiveModel::Serializer
-  attributes :id, :email, :first_name, :last_name, :rating, :about, :birth_date, :gender, :phone, :web_site, :country, :city, :created_at, :avatar, :sports, :followers, :followings, :wind, :temp, :alerts, :favorite_spots
+  attributes :id, :email, :first_name, :last_name, :rating, :about, :birth_date, :gender, :phone, :web_site, :country, :city, :created_at, :avatar, :sports, :followers, :followings, :wind, :temp, :alerts, :favorite_spots, :online
 
   def sports
   	object.sports.map do |sport|
@@ -25,5 +25,13 @@ class Api::V1::UserSerializer < ActiveModel::Serializer
 
   def favorite_spots
     Api::V1::FavoriteSpot.where('user_id = ?', object.id).count(:all)
+  end
+
+  def online
+    if Api::V1::UserActivity.where('user_id = ? and updated_at >= ?', object.id, DateTime.now - 30.minutes).exists?
+      return 'true'
+    else
+      return 'false'
+    end
   end
 end

@@ -1,6 +1,7 @@
 class Api::V1::ReportsController < ApplicationController
   before_filter :authenticate_user!
   before_action :set_api_v1_report, only: [:show, :update, :destroy]
+  before_action :update_last_activity!, only: [:index, :posts, :feed, :show, :create, :update]
 
   # GET /api/v1/reports
   # GET /api/v1/reports.json

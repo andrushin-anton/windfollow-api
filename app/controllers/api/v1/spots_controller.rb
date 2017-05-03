@@ -1,6 +1,7 @@
 class Api::V1::SpotsController < ApplicationController
   before_filter :authenticate_user!
   before_action :set_api_v1_spot, only: [:show, :update, :destroy]
+  before_action :update_last_activity!, only: [:index, :feed, :show, :create, :update]
 
   # GET /api/v1/spots
   # GET /api/v1/spots.json
