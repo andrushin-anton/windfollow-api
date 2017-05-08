@@ -50,7 +50,7 @@ class Api::V1::ReportLikesController < ApplicationController
   # DELETE /api/v1/report_likes/1
   # DELETE /api/v1/report_likes/1.json
   def destroy
-    unless condition
+    unless @api_v1_report_like.nil?
       @api_v1_report_like.destroy
     end
     head :no_content

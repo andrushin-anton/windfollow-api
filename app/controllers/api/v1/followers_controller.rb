@@ -57,7 +57,7 @@ class Api::V1::FollowersController < ApplicationController
   private
 
     def set_api_v1_follower
-      @api_v1_follower = Api::V1::Follower.where('user_id = ?', params[:id]).all
+      @api_v1_follower = Api::V1::Follower.where('follower_id = ?', params[:id]).all
     end
 
     def api_v1_follower_params
