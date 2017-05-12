@@ -14,7 +14,7 @@ class Api::V1::GeoController < ApplicationController
 			spot = Api::V1::Spot.order("(POW((geo_lon - #{params[:lon]}),2) + POW((geo_lat - #{params[:lat]}),2))").first
 			distance = Api::V1::Report.haversine(params[:lat].to_f, params[:lon].to_f, spot.geo_lat.to_f, spot.geo_lon.to_f)
 
-			if distance < 11
+			if distance <= 1
 				render json: { :spot_id => spot.id, :place => spot.city + ',' + spot.country }, status: 200
 			else
 				result = JSON.parse(Net::HTTP.get(Addressable::URI.parse('https://maps.googleapis.com/maps/api/geocode/json?latlng='+params[:lat]+','+params[:lon]+'&key='+GOOGLE_KEY+'')))
