@@ -5,7 +5,7 @@ class Api::V1::MessagesController < ApplicationController
   # GET /api/v1/messages
   # GET /api/v1/messages.json
   def index
-    render json: Api::V1::Message.select('distinct on (recepient_id) *').filter_by_user(@current_user.id)
+    render json: Api::V1::Message.select('distinct(recepient_id), id, sender_id, recepient_id, content, created_at, updated_at').filter_by_user(@current_user.id)
   end
 
   # GET /api/v1/messages/1/recepient
