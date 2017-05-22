@@ -5,13 +5,15 @@ class Api::V1::MessagesController < ApplicationController
   # GET /api/v1/messages
   # GET /api/v1/messages.json
   def index
-    render json: Api::V1::Message.select('distinct(recepient_id), id, sender_id, recepient_id, content, created_at, updated_at').filter_by_user(@current_user.id)
+    paginate json: Api::V1::Message.where('sender_id = ? OR recepient_id = ?', @current_user.id, @current_user.id).group('sender_id, recepient_id').recent
   end
 
   # GET /api/v1/messages/1/recepient
   # GET /api/v1/messages/1/recepient.json
   def recepient
-    paginate json: Api::V1::Message.filter_by_user(@current_user.id).filter_by_recepient(params[:id]).recent
+    paginate json: Api::V1::Message.where('(sender_id = ? AND recepient_id = ?) OR (sender_id = ? AND recepient_id = ?)', @current_user.id, params[:id], params[:id], @current_user.id).recent
+    
+    Api::V1::Message.make_viewed(@current_user.id, params[:id])
   end
 
   # GET /api/v1/messages/1
