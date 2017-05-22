@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170517193405) do
+ActiveRecord::Schema.define(version: 20170522203753) do
 
   create_table "api_v1_alerts", force: :cascade do |t|
     t.integer  "user_id",    limit: 4
@@ -92,7 +92,7 @@ ActiveRecord::Schema.define(version: 20170517193405) do
     t.float    "VGRD_1",   limit: 53
   end
 
-  create_table "api_v1_messages", force: :cascade do |t|
+  create_table "api_v1_messages_copy", id: false, force: :cascade do |t|
     t.text     "content",      limit: 65535
     t.datetime "created_at",                             null: false
     t.datetime "updated_at",                             null: false
@@ -100,9 +100,6 @@ ActiveRecord::Schema.define(version: 20170517193405) do
     t.integer  "recepient_id", limit: 4
     t.integer  "sender_id",    limit: 4
   end
-
-  add_index "api_v1_messages", ["recepient_id"], name: "index_api_v1_messages_on_recepient_id", using: :btree
-  add_index "api_v1_messages", ["sender_id"], name: "index_api_v1_messages_on_sender_id", using: :btree
 
   create_table "api_v1_notifications", force: :cascade do |t|
     t.integer  "user_id",         limit: 4
@@ -514,8 +511,6 @@ ActiveRecord::Schema.define(version: 20170517193405) do
     t.integer "val_precision",         limit: 4
   end
 
-  add_foreign_key "api_v1_messages", "api_v1_users", column: "recepient_id"
-  add_foreign_key "api_v1_messages", "api_v1_users", column: "recepient_id"
   add_foreign_key "users_groups", "groups", name: "fk_users_groups_groups1", on_delete: :cascade
   add_foreign_key "users_groups", "users", name: "fk_users_groups_users1", on_delete: :cascade
 end
