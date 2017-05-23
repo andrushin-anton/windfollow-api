@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170522203753) do
+ActiveRecord::Schema.define(version: 20170523193921) do
 
   create_table "api_v1_alerts", force: :cascade do |t|
     t.integer  "user_id",    limit: 4
@@ -22,6 +22,13 @@ ActiveRecord::Schema.define(version: 20170522203753) do
   end
 
   add_index "api_v1_alerts", ["user_id"], name: "index_api_v1_alerts_on_user_id", using: :btree
+
+  create_table "api_v1_conversations", force: :cascade do |t|
+    t.integer  "sender_id",    limit: 4
+    t.integer  "recipient_id", limit: 4
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "api_v1_devices", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -91,6 +98,18 @@ ActiveRecord::Schema.define(version: 20170522203753) do
     t.float    "UGRD_1",   limit: 53
     t.float    "VGRD_1",   limit: 53
   end
+
+  create_table "api_v1_messages", force: :cascade do |t|
+    t.text     "body",            limit: 65535
+    t.integer  "conversation_id", limit: 4
+    t.integer  "user_id",         limit: 4
+    t.boolean  "read",            limit: 1,     default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "api_v1_messages", ["conversation_id"], name: "index_api_v1_messages_on_conversation_id", using: :btree
+  add_index "api_v1_messages", ["user_id"], name: "index_api_v1_messages_on_user_id", using: :btree
 
   create_table "api_v1_messages_copy", id: false, force: :cascade do |t|
     t.text     "content",      limit: 65535

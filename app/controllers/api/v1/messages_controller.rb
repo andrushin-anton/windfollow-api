@@ -1,73 +1,41 @@
 class Api::V1::MessagesController < ApplicationController
   before_filter :authenticate_user!
-  before_action :set_api_v1_message, only: [:show, :update, :destroy]
+  before_action do
+   @conversation = Api::V1::Conversation.where('id = ? AND (sender_id = ? OR recipient_id = ?)', params[:conversation_id], @current_user.id, @current_user.id).first
+   if @conversation.nil?
+    render json: { error: 'wrong conversation' }, status: 404
+   end    
+  end
 
-  # GET /api/v1/messages
-  # GET /api/v1/messages.json
+  # GET /api/v1/conversations/:id/messages
+  # GET /api/v1/conversations/:id/messages.json
   def index
-    paginate json: Api::V1::Message.where('sender_id = ? OR recepient_id = ?', @current_user.id, @current_user.id).group('sender_id, recepient_id').recent
-  end
+    messages = @conversation.messages.order('created_at DESC')
 
-  # GET /api/v1/messages/1/recepient
-  # GET /api/v1/messages/1/recepient.json
-  def recepient
-    paginate json: Api::V1::Message.where('(sender_id = ? AND recepient_id = ?) OR (sender_id = ? AND recepient_id = ?)', @current_user.id, params[:id], params[:id], @current_user.id).recent
+    messages.each do |m|
+      if m.user_id != @current_user.id
+        m.read = true;
+        m.save
+      end
+    end
     
-    Api::V1::Message.make_viewed(@current_user.id, params[:id])
+    paginate json: messages
   end
 
-  # GET /api/v1/messages/1
-  # GET /api/v1/messages/1.json
-  def show
-    if @api_v1_message.sender_id == @current_user.id
-      render json: @api_v1_message
-    else
-      render json: { error: 'not found' }, status: 404
-    end
-  end
-
-  # POST /api/v1/messages
-  # POST /api/v1/messages.json
+  # POST /api/v1/conversations/:id/messages
+  # POST /api/v1/conversations/:id/messages.json
   def create
-    @api_v1_message = Api::V1::Message.new(api_v1_message_params)
-    @api_v1_message.sender_id = @current_user.id
-
-    if @api_v1_message.save
-      render json: @api_v1_message, status: :created, location: @api_v1_message
+    message = @conversation.messages.new(message_params)
+    message.user_id = @current_user.id
+    if message.save
+      render json: message, status: :created, location: message
     else
-      render json: @api_v1_message.errors, status: :unprocessable_entity
+      render json: message.errors, status: :unprocessable_entity
     end
-  end
-
-  # PATCH/PUT /api/v1/messages/1
-  # PATCH/PUT /api/v1/messages/1.json
-  def update
-    @api_v1_message = Api::V1::Message.find(params[:id])
-
-    if @api_v1_message.sender_id == @current_user.id && @api_v1_message.update(api_v1_message_params)
-      head :no_content
-    else
-      render json: @api_v1_message.errors, status: :unprocessable_entity
-    end
-  end
-
-  # DELETE /api/v1/messages/1
-  # DELETE /api/v1/messages/1.json
-  def destroy
-    if @api_v1_message.sender_id == @current_user.id && @api_v1_message.destroy
-      head :no_content
-    else  
-      render json: { error: 'not allowed' }, status: 401
-    end    
   end
 
   private
-
-    def set_api_v1_message
-      @api_v1_message = Api::V1::Message.find(params[:id])
-    end
-
-    def api_v1_message_params
-      params.permit(:recepient_id, :content)
+    def message_params
+      params.permit(:body)
     end
 end

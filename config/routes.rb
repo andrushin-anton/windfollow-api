@@ -39,6 +39,11 @@ Rails.application.routes.draw do
     get  'sensors/nearest/:spot' => 'sensors#nearest'
     delete 'sport_user/:sport_id' => 'sport_user#destroy'
     delete 'spots/unsubscribe/:id' => 'spots#unsubscribe'
+
+    get  'conversations' => 'conversations#index'
+    get  'conversations/:conversation_id/messages' => 'messages#index'
+    post 'conversations' => 'conversations#create'
+    post 'conversations/:conversation_id/messages' => 'messages#create'
     end
   end
 

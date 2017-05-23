@@ -67,16 +67,28 @@ namespace :scraper do
 		result = JSON.parse(open(uri).read)
 
 		# Clear old data
+		Api::V1::Conversation.destroy_all
 		Api::V1::Message.destroy_all
 
 		i = 1
 
 		result.each do |message|
 
-			message_model = Api::V1::Message.new
-			message_model.sender_id = message['from_id']
-			message_model.recepient_id = message['to_id']
-			message_model.content = message['message']
+			# check if conversation exists, if not - create it 
+			if Api::V1::Conversation.between(message['from_id'], message['to_id']).present?
+				conversation = Api::V1::Conversation.between(message['from_id'], message['to_id']).first
+			else
+				conversation = Api::V1::Conversation.new
+				conversation.sender_id = message['from_id']
+				conversation.recipient_id = message['to_id']
+				conversation.save
+			end
+
+			# save message
+			message_model = conversation.messages.new		
+			message_model.user_id = message['from_id']
+			message_model.body = message['message']
+			message_model.read = true
 			message_model.created_at = Time.at(message['created'].to_i).to_datetime
 			message_model.updated_at = Time.at(message['created'].to_i).to_datetime
 			message_model.save			

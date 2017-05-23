@@ -1,12 +1,8 @@
 class Api::V1::MessageSerializer < ActiveModel::Serializer
-  attributes :id, :sender, :recepient, :content, :viewed, :created_at
+  attributes :body, :sender, :created_at, :read, :updated_at
 
   def sender
-  	Api::V1::UserFollowerSerializer.new(object.sender, { root: false })
-  end
-
-  def recepient
-  	Api::V1::UserFollowerSerializer.new(object.recepient, { root: false })
+  	Api::V1::UserFollowerSerializer.new(object.user, { root: false })
   end
 
 end
