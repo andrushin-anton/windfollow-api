@@ -25,7 +25,7 @@ class Api::V1::ReportImageComment < ActiveRecord::Base
 			notification = Api::V1::Notification.new
 			notification.user_id = image.user_id
 			notification.event_type = Api::V1::Notification::TYPE_REPORT_PHOTO_COMMENT
-			notification.content = {:event_user_id => user.id, :event_user_name => user.first_name + ' ' + user.last_name, :event_user_avatar => user.formated_avatar}.to_json
+			notification.content = { :event_user_id => user.id, :event_user_name => user.first_name + ' ' + user.last_name, :event_user_avatar => user.formated_avatar, :event_content => self.content, :report => image.report }.to_json
 			notification.event_object_id = self.report_image_id
 			notification.save
 		end

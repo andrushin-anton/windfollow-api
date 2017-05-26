@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170523193921) do
+ActiveRecord::Schema.define(version: 20170526101345) do
 
   create_table "api_v1_alerts", force: :cascade do |t|
     t.integer  "user_id",    limit: 4
@@ -123,10 +123,10 @@ ActiveRecord::Schema.define(version: 20170523193921) do
   create_table "api_v1_notifications", force: :cascade do |t|
     t.integer  "user_id",         limit: 4
     t.string   "event_type",      limit: 255
-    t.string   "content",         limit: 255
+    t.text     "content",         limit: 65535
     t.integer  "event_object_id", limit: 4
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
   end
 
   create_table "api_v1_report_comments", force: :cascade do |t|
