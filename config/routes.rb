@@ -41,6 +41,7 @@ Rails.application.routes.draw do
     delete 'spots/unsubscribe/:id' => 'spots#unsubscribe'
 
     get  'conversations' => 'conversations#index'
+    get  'messages/:user_id/recipient' => 'conversations#recipient'
     get  'conversations/:conversation_id/messages' => 'messages#index'
     post 'conversations' => 'conversations#create'
     post 'conversations/:conversation_id/messages' => 'messages#create'

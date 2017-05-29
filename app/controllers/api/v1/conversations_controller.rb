@@ -9,6 +9,20 @@ class Api::V1::ConversationsController < ApplicationController
     paginate json: conversations
   end
 
+  # GET /api/v1/messages/:user_id/recipient
+  # GET /api/v1/messages/:user_id/recipient.json
+  def recipient
+    conversation = Api::V1::Conversation.between(@current_user.id, params[:user_id]).first
+
+    unless conversation.nil?
+      messages = conversation.messages.order('created_at DESC')
+
+      paginate json: messages
+    else
+      paginate json: []
+    end
+  end
+
   # POST /api/v1/conversations
   # POST /api/v1/conversations.json
   def create
