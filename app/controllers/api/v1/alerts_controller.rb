@@ -44,7 +44,7 @@ class Api::V1::AlertsController < ApplicationController
   private
 
     def set_api_v1_alert
-      @api_v1_alert = Api::V1::Alert.find(params[:id])
+      @api_v1_alert = Api::V1::Alert.where('id = ? AND user_id = ?', params[:id], @current_user.id).first
     end
 
     def api_v1_alert_params
