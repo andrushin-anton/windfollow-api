@@ -54,6 +54,11 @@ class Api::V1::FavoriteSpotsController < ApplicationController
   # DELETE /api/v1/favorite_spots/1.json
   def destroy
     unless @api_v1_favorite_spot.nil?
+      # remove alerts
+      alert = Api::V1::Alert.where('spot_id = ? AND user_id = ?', @api_v1_favorite_spot.id, @current_user.id).first
+      unless alert.nil?
+        alert.destroy  
+      end
       @api_v1_favorite_spot.destroy
     end
 
