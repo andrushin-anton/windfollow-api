@@ -5,20 +5,14 @@ class Api::V1::AlertsController < ApplicationController
   # GET /api/v1/alerts
   # GET /api/v1/alerts.json
   def index
-    @api_v1_alerts = Api::V1::Alert.where('user_id = ?', @current_user.id).first
+    @api_v1_alerts = Api::V1::Alert.where('user_id = ?', @current_user.id).all
 
-    render json: @api_v1_alerts
+    paginate json: @api_v1_alerts
   end
 
   # POST /api/v1/alerts
   # POST /api/v1/alerts.json
   def create
-    # delete all prev alerts if exists
-    alert = Api::V1::Alert.where('user_id = ?', @current_user.id).first
-    unless alert.nil?
-      alert.destroy
-    end
-
     @api_v1_alert = Api::V1::Alert.new(api_v1_alert_params)
     @api_v1_alert.user_id = @current_user.id
 
@@ -32,8 +26,6 @@ class Api::V1::AlertsController < ApplicationController
   # PATCH/PUT /api/v1/alerts/1
   # PATCH/PUT /api/v1/alerts/1.json
   def update
-    @api_v1_alert = Api::V1::Alert.find(params[:id])
-
     if @api_v1_alert.update(api_v1_alert_params)
       head :no_content
     else
@@ -56,6 +48,6 @@ class Api::V1::AlertsController < ApplicationController
     end
 
     def api_v1_alert_params
-      params.permit(:distance, :time_alert)
+      params.permit(:speed_from, :speed_to, :direction, :spot_id, :distance, :time_alert)
     end
 end
