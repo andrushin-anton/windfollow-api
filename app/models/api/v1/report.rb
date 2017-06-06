@@ -18,47 +18,37 @@ class Api::V1::Report < ActiveRecord::Base
 
 	def notify
 		if self.notify_people == true
-			# get report's spot
-			spot = Api::V1::Spot.find(self.spot_id)
+
 			send_push_notification = false
+			
+			# we are interested in wind reports only
+			if (self.wind != '')
+				# get report's spot
+				spot = Api::V1::Spot.find(self.spot_id)
+				# we are interested in reports assigned to one of the spots
+				unless spot.nil?
+					# get users subsribed to this spot
+					user_spots = Api::V1::UserSpot.where('spot_id = ?', spot.id).all
 
-			unless spot.nil?
-				# get users with alerts enabled
-				alerts = Api::V1::Alert.where('spot_id = ? AND direction LIKE ?', spot.id, "%'#{self.direction}'%").all
-
-				unless alerts.nil?
-					alerts.each do |alert|
-
-						# check if the user is not that one who has created this report
-						if alert.user_id != self.user_id
-
-							# find out if in time range
-							# getting user's datetime by timezone configured
-							user_timezone = alert.user.get_timezone_value(alert.user.timezone)
-							user_datetime = Time.zone.now + user_timezone.hours
-							user_hour = user_datetime.strftime('%H')
-							
-							# it should be more or equal to the start hour and less or equat to the end hour in user's config
-							if (user_hour.to_i >= alert.time_alert.split('-', 2).first.to_i) && (user_hour.to_i <= alert.time_alert.split('-', 2).last.to_i)
+					unless user_spots.nil?
+						# loop through each of the user and send a personal notification
+						user_spots.each do |user_spot|
+							# check if the user is not that one who has created this report
+							if user_spot.user_id != self.user_id
+						
+								# we are good to save notification
+								# find event user 
+								event_user = Api::V1::User.find(self.user_id)		
+								# create new notification
+								notification = Api::V1::Notification.new
+								notification.user_id = user_spot.user_id
+								notification.event_type = Api::V1::Notification::TYPE_NEW_REPORT
+								notification.content = {:spot => spot, :direction => self.direction, :wind => self.wind, :event_user_id => event_user.id, :event_user_name => event_user.first_name + ' ' + event_user.last_name, :event_user_avatar => event_user.formated_avatar, :event_report_place => self.place }.to_json
+								notification.event_object_id = self.id
+								notification.save
+								# update flag
+								send_push_notification = true
 								
-								# check wind speed
-								if (self.wind != '') 
-									if (self.wind.split('-', 2).first.to_i >= alert.speed_from) && (self.wind.split('-', 2).last.to_i <= alert.speed_to)
-										# we are good to save notification
-										# find event user 
-										event_user = Api::V1::User.find(self.user_id)
-										
-										# create new notification
-										notification = Api::V1::Notification.new
-										notification.user_id = alert.user_id
-										notification.event_type = Api::V1::Notification::TYPE_NEW_REPORT
-										notification.content = {:spot => spot, :direction => self.direction, :wind => self.wind, :event_user_id => event_user.id, :event_user_name => event_user.first_name + ' ' + event_user.last_name, :event_user_avatar => event_user.formated_avatar, :event_report_place => self.place }.to_json
-										notification.event_object_id = self.id
-										notification.save
-										# update flag
-										send_push_notification = true
-									end
-								end
 							end
 						end
 					end
