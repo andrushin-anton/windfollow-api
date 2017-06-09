@@ -48,6 +48,6 @@ class Api::V1::AlertsController < ApplicationController
     end
 
     def api_v1_alert_params
-      params.permit(:speed_from, :speed_to, :direction, :spot_id, :distance, :time_alert)
+      params.permit(:notify_for_days, :sensor_enabled, :speed_from, :speed_to, :direction, :spot_id, :distance, :time_alert)
     end
 end

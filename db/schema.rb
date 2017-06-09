@@ -11,18 +11,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170605180609) do
+ActiveRecord::Schema.define(version: 20170609150209) do
 
   create_table "api_v1_alerts", force: :cascade do |t|
-    t.integer  "user_id",    limit: 4
-    t.float    "distance",   limit: 24
-    t.string   "time_alert", limit: 255
-    t.datetime "created_at",                                  null: false
-    t.datetime "updated_at",                                  null: false
-    t.integer  "spot_id",    limit: 4
-    t.string   "direction",  limit: 255, default: "--- []\n"
-    t.integer  "speed_from", limit: 4
-    t.integer  "speed_to",   limit: 4
+    t.integer  "user_id",                 limit: 4
+    t.float    "distance",                limit: 24
+    t.string   "time_alert",              limit: 255
+    t.datetime "created_at",                                               null: false
+    t.datetime "updated_at",                                               null: false
+    t.integer  "spot_id",                 limit: 4
+    t.string   "direction",               limit: 255, default: "--- []\n"
+    t.integer  "speed_from",              limit: 4
+    t.integer  "speed_to",                limit: 4
+    t.datetime "forecast_last_time_sent"
+    t.datetime "sensor_last_time_sent"
+    t.integer  "sensor_enabled",          limit: 4
+    t.integer  "notify_for_days",         limit: 4
   end
 
   add_index "api_v1_alerts", ["spot_id"], name: "index_api_v1_alerts_on_spot_id", using: :btree
