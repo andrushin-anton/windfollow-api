@@ -1,6 +1,5 @@
 class Api::V1::FollowingsController < ApplicationController
   before_filter :authenticate_user!
-  before_action :set_api_v1_following, only: [:show, :update]
 
   # GET /api/v1/followings
   # GET /api/v1/followings.json
@@ -14,7 +13,10 @@ class Api::V1::FollowingsController < ApplicationController
   # GET /api/v1/followings/1
   # GET /api/v1/followings/1.json
   def show
-    render json: @api_v1_following
+    user = Api::V1::User.find(params[:id])
+    unless user.nil?
+      render json: user.followings.all
+    end
   end
 
   # POST /api/v1/followings
@@ -57,10 +59,6 @@ class Api::V1::FollowingsController < ApplicationController
   end
 
   private
-
-    def set_api_v1_following
-      @api_v1_following = Api::V1::Following.where('id = ?', params[:id]).all
-    end
 
     def api_v1_following_params
       params.permit(:user_id)

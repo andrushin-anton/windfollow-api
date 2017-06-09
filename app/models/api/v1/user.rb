@@ -34,11 +34,12 @@ class Api::V1::User < ActiveRecord::Base
 
   has_many :sport_users
   has_many :sports, through: :sport_users
-  has_many :followers, :foreign_key => 'user_id'
-  has_many :followings, :foreign_key => 'follower_id'
+  has_many :followers, :foreign_key => 'follower_id'
+  has_many :followings, :foreign_key => 'user_id'
   has_many :spots
   has_many :devices
   has_many :alerts
+  has_many :reports
 
 
   attr_accessor :place

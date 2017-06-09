@@ -1,5 +1,5 @@
 class Api::V1::UserSerializer < ActiveModel::Serializer
-  attributes :id, :email, :first_name, :last_name, :rating, :about, :birth_date, :gender, :phone, :web_site, :country, :city, :created_at, :avatar, :sports, :followers, :followings, :wind, :temp, :alerts, :favorite_spots, :online
+  attributes :id, :email, :first_name, :last_name, :rating, :about, :birth_date, :gender, :phone, :web_site, :country, :city, :created_at, :avatar, :sports, :followers, :followings, :wind, :temp, :alerts, :favorite_spots, :reports, :online
 
   def sports
   	object.sports.map do |sport|
@@ -17,6 +17,10 @@ class Api::V1::UserSerializer < ActiveModel::Serializer
 
   def followings
   	object.followings.count(:all)
+  end
+
+  def reports
+    object.reports.count(:all)
   end
 
   def alerts
