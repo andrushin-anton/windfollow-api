@@ -1,12 +1,12 @@
-require 'date'
-
 class Api::V1::ForecastController < ApplicationController
   #before_filter :authenticate_user!, only: [:gfs]
 
   # GET /api/v1/forecast/gfs/:lat/:lon
   # GET /api/v1/forecast/gfs.json
   def gfs
-    unless params[:lat] && params[:lon]
+    if params[:lat].nil? && params[:lon].nil?
+      head :no_content
+    else
       unless @current_user.nil?
         current_temp = @current_user.temp
         current_wind = @current_user.wind  
@@ -21,9 +21,7 @@ class Api::V1::ForecastController < ApplicationController
         render json: data, status: 200
       else
         head :no_content    
-      end
-    else
-      head :no_content
-    end
+      end      
+    end   
   end
 end

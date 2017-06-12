@@ -1,3 +1,5 @@
+require 'date'
+
 class Api::V1::Gfs < ActiveRecord::Base
 	attr_accessor :current_temp, :current_wind
 
@@ -21,7 +23,7 @@ class Api::V1::Gfs < ActiveRecord::Base
 
 
       #SELECT * FROM windfollow.gfs_2_5 where lat = -90 and lon = 0.25 and rt = '2016-08-06 12:00:00' and vt in('2016-08-06 13:00:00', '2016-08-06 14:00:00');
-      data = Api::V1::Gfs.where('lat = ? AND lon = ? AND rt = ? AND vt IN(?)', Api::V1::Gfs.interpolate_2_5(params[:lat]), Api::V1::Gfs.interpolate_2_5(params[:lon]), rec.rt, hours_list).all
+      @data = Api::V1::Gfs.where('lat = ? AND lon = ? AND rt = ? AND vt IN(?)', Api::V1::Gfs.interpolate_2_5(geo_lat), Api::V1::Gfs.interpolate_2_5(geo_lon), rec.rt, hours_list).all
 
       # For precipation:
       # current value needs to be substucted from prev
@@ -29,8 +31,8 @@ class Api::V1::Gfs < ActiveRecord::Base
       prev_apcp = 0
       ignore_hours = ['00', '06', '12', '18']
 
-      unless data.nil?
-        data.each do |hour|
+      unless @data.nil?
+        @data.each do |hour|
           # set users prefered settings
           hour.current_temp = temp
           hour.current_wind = wind          
@@ -50,7 +52,7 @@ class Api::V1::Gfs < ActiveRecord::Base
             prev_apcp = temp_apcp_value
           end
         end
-        return data
+        return @data
       else
         return nil
       end      
