@@ -4,7 +4,7 @@ class Api::V1::Gfs < ActiveRecord::Base
 	attr_accessor :current_temp, :current_wind
 
 
-  def self.find_data_by_coordinates(geo_lat, geo_lon, temp, wind)
+  def self.find_data_by_coordinates(geo_lat, geo_lon, temp, wind, hours_limit = 239)
     # we need to get the last insert time
     rec = Api::V1::Gfs.order('rt desc').first
 
@@ -15,7 +15,7 @@ class Api::V1::Gfs < ActiveRecord::Base
       next_hour = DateTime.new(date.year, date.month, date.day, date.hour)
       hours_list << next_hour
 
-      for i in 1..239
+      for i in 1..hours_limit
         date = date + 60*60 # +1 hour
         next_hour = DateTime.new(date.year, date.month, date.day, date.hour)
         hours_list << next_hour
