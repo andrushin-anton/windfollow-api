@@ -37,7 +37,10 @@ namespace :forecast do
                 notification.event_type = Api::V1::Notification::TYPE_FORECAST_ALERT
                 notification.content = { :vt => found_hour.vt.to_formatted_s(:db), :spot => alert.spot, :direction => found_hour.wind_dir, :wind => found_hour.wind_speed }.to_json
                 notification.event_object_id = alert.spot.id
-                notification.save								
+                notification.save
+                # update forecast_last_time_sent
+                alert.forecast_last_time_sent = Time.now
+                alert.save
             end
         end
 
