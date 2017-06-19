@@ -22,7 +22,7 @@ class Api::V1::Report < ActiveRecord::Base
 			send_push_notification = false
 			
 			# we are interested in wind reports only
-			if (self.wind != '')
+			if ((self.wind != nil && self.wind != '') && (self.spot_id != nil && self.spot_id != 0))
 				# get report's spot
 				spot = Api::V1::Spot.find(self.spot_id)
 				# we are interested in reports assigned to one of the spots
