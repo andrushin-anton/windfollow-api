@@ -1,5 +1,6 @@
 class Api::V1::ConversationsController < ApplicationController
   before_filter :authenticate_user!
+  before_action :update_last_activity!, only: [:index]
   
   # GET /api/v1/conversations
   # GET /api/v1/conversations

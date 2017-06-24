@@ -1,6 +1,7 @@
 class Api::V1::FavoriteSpotsController < ApplicationController
   before_filter :authenticate_user!
   before_action :set_api_v1_favorite_spot, only: [:destroy]
+  before_action :update_last_activity!, only: [:index]
 
   # GET /api/v1/favorite_spots
   # GET /api/v1/favorite_spots.json
