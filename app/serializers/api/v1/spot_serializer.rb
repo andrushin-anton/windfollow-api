@@ -1,5 +1,5 @@
 class Api::V1::SpotSerializer < ActiveModel::Serializer
-  attributes :id, :name, :geo_lat, :geo_lon, :rating, :best_month, :wave, :level, :user_id, :country, :city, :sport, :created_at, :updated_at
+  attributes :id, :name, :geo_lat, :geo_lon, :rating, :best_month, :wave, :level, :user_id, :country, :city, :sport, :followers, :created_at, :updated_at
 
   def rating
   	rating = object.rating.to_f
@@ -36,4 +36,9 @@ class Api::V1::SpotSerializer < ActiveModel::Serializer
 
   	return months
   end
+
+	def followers
+		Api::V1::UserSpot.where('spot_id = ?', object.id).count(:all)
+	end
+
 end

@@ -20,13 +20,13 @@ class Api::V1::FavoriteSpotsController < ApplicationController
   # POST /api/v1/favorite_spots
   # POST /api/v1/favorite_spots.json
   def create
-    @api_v1_favorite_spot = Api::V1::FavoriteSpot.where('spot_id = ? AND user_id = ? ', params[:sport_id], @current_user.id).first
+    @api_v1_favorite_spot = Api::V1::FavoriteSpot.where('spot_id = ? AND user_id = ? ', params[:spot_id], @current_user.id).first
 
     if @api_v1_favorite_spot.nil?
       @api_v1_favorite_spot = Api::V1::FavoriteSpot.new(api_v1_favorite_spot_params)
       @api_v1_favorite_spot.user_id = @current_user.id
 
-      user_spot = Api::V1::UserSpot.where('spot_id = ? AND user_id = ? ', params[:sport_id], @current_user.id).first
+      user_spot = Api::V1::UserSpot.where('spot_id = ? AND user_id = ? ', params[:spot_id], @current_user.id).first
       if user_spot.nil?
         user_spot = Api::V1::UserSpot.new
         user_spot.spot_id = params[:spot_id]
