@@ -1,7 +1,7 @@
 require 'date'
 
 class Api::V1::Gfs < ActiveRecord::Base
-	attr_accessor :current_temp, :current_wind
+	attr_accessor :current_temp, :current_wind, :precipitation
 
 
   def self.find_data_by_coordinates(geo_lat, geo_lon, temp, wind, hours_limit = 239)
@@ -35,7 +35,8 @@ class Api::V1::Gfs < ActiveRecord::Base
         @data.each do |hour|
           # set users prefered settings
           hour.current_temp = temp
-          hour.current_wind = wind          
+          hour.current_wind = wind 
+          hour.precipitation = hour.APCP_0         
 
           # calculate precipation
           unless hour.APCP_0.nil?
