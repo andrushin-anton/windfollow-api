@@ -2,7 +2,7 @@
 lock '3.4.1'
 
 set :application, 'windfollow'
-set :repo_url, 'git@bitbucket.org/andrushin-anton/windfollow.git'
+set :repo_url, 'git@bitbucket.org:andrushin-anton/windfollow.git'
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
