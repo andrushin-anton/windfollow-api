@@ -160,15 +160,7 @@ class Api::V1::Gfs < ActiveRecord::Base
 
   def wind_dir
     unless self.UGRD_1.nil? && self.VGRD_1.nil?
-      if(self.VGRD_1 > 0)
-        dir_deg = (((180 / Math::PI) * Math::atan(self.UGRD_1/self.VGRD_1) + 180)).round(2)
-      elsif(self.UGRD_1 < 0 && self.VGRD_1 < 0)
-        dir_deg = (((180 / Math::PI) * Math::atan(self.UGRD_1/self.VGRD_1) + 0)).round(2)
-      elsif(self.UGRD_1 > 0 && self.VGRD_1 < 0)
-        dir_deg = (((180 / Math::PI) * Math::atan(self.UGRD_1/self.VGRD_1) + 360)).round(2)
-      else
-        dir_deg = 147 #SSE
-      end
+      dir_deg = wind_dir_deg()
 
       # Degree Direction to Cardinal Direction
 
