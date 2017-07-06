@@ -70,13 +70,13 @@ class Api::V1::Gfs < ActiveRecord::Base
   end
 
   def temp
-    unless self.TMP_0.nil?
+    unless self.TMP_2.nil?
       if self.current_temp == 'c'
         # T(°C) = T(K) - 273.15
-        return (self.TMP_0 - 273.15).round(1)
+        return (self.TMP_2 - 273.15).round(1)
       else
         # T(°F) = T(K) × 9/5 - 459.67
-        return ((self.TMP_0 * 1.8) - 459.67).round(1)
+        return ((self.TMP_2 * 1.8) - 459.67).round(1)
       end
     end
   end
