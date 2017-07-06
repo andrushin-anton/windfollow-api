@@ -39,14 +39,14 @@ class Api::V1::Gfs < ActiveRecord::Base
           hour.precipitation = hour.APCP_0         
 
           # calculate precipation
-          unless hour.APCP_0.nil?
-            temp_apcp_value = hour.APCP_0
+          unless hour.precipitation.nil?
+            temp_apcp_value = hour.precipitation
             # if this hour is not begining of a new circle
             unless ignore_hours.include? hour.vt.strftime("%H")
-              if prev_apcp > hour.APCP_0
-                hour.APCP_0 = 0
+              if prev_apcp > hour.precipitation
+                hour.precipitation = 0
               else
-                hour.APCP_0 = (hour.APCP_0 - prev_apcp).round(1)
+                hour.precipitation = (hour.precipitation - prev_apcp).round(1)
               end
             end
             # set previous apcp value
