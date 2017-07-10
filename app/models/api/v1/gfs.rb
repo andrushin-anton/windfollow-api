@@ -1,12 +1,12 @@
 require 'date'
 
 class Api::V1::Gfs < ActiveRecord::Base
-	attr_accessor :current_temp, :current_wind, :precipitation
+	attr_accessor :current_temp, :current_wind, :precipitation, :utc
 
 
   def self.find_data_by_coordinates(geo_lat, geo_lon, temp, wind, hours_limit = 239)
     # we need to get the last insert time
-    rec = Api::V1::Gfs.order('rt desc').first
+    rec = Api::V1::Gfs.order('rt desc').first 
 
     unless rec.nil?
       # generate each hour list forecast for next 10 days
@@ -32,11 +32,18 @@ class Api::V1::Gfs < ActiveRecord::Base
       ignore_hours = ['00', '06', '12', '18']
 
       unless @data.nil?
+
+        # get utc timezone for this point
+        tf = TimezoneFinder.create
+        timezone = tf.timezone_at(lng: @data[0].lon, lat: @data[0].lat)
+
         @data.each do |hour|
           # set users prefered settings
           hour.current_temp = temp
           hour.current_wind = wind 
-          hour.precipitation = hour.APCP_0         
+          hour.precipitation = hour.APCP_0        
+          # set utc
+          hour.utc = DateTime.now.utc.in_time_zone(timezone).utc_offset / 3600
 
           # calculate precipation
           unless hour.precipitation.nil?

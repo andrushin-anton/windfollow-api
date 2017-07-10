@@ -43,6 +43,8 @@ gem 'figaro'
 
 gem 'rails-push-notifications', '~> 0.2.0'
 
+gem 'timezone_finder'
+
 
 group :development do
 	gem 'capistrano-bundler', '~> 1.1.2'
