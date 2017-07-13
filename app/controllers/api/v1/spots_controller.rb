@@ -6,39 +6,55 @@ class Api::V1::SpotsController < ApplicationController
   # GET /api/v1/spots
   # GET /api/v1/spots.json
   def index
+    query_params = {}
+    order = ''
+    where = ''
     # Sort by nearest to user
     unless @current_user.geo_lat.nil?
-      @api_v1_spots = Api::V1::Spot.order("(POW((geo_lon - #{@current_user.geo_lon}),2) + POW((geo_lat - #{@current_user.geo_lat}),2))").all    
-    else 
-      @api_v1_spots = Api::V1::Spot.order('rating DESC').all
+      order = "(POW((geo_lon - #{@current_user.geo_lon}),2) + POW((geo_lat - #{@current_user.geo_lat}),2))"
+    else
+      order = "rating DESC" 
     end
 
     unless params[:search].nil?
-      @api_v1_spots = Api::V1::Spot.where('name like :search or country like :search or city like :search', search: "%#{params[:search]}%").all
+      where = 'name like :search or country like :search or city like :search'
+      query_params[:search] = "%#{params[:search]}%"
     end
 
     unless params[:wave].nil?
-      @api_v1_spots = Api::V1::Spot.where('wave like :wave', wave: "%#{params[:wave]}%").all
+      if where == '' then where = 'wave like :wave' else where = where + ' AND wave like :wave' end
+      query_params[:wave] = "%#{params[:wave]}%"
     end
 
     unless params[:level].nil?
-      @api_v1_spots = Api::V1::Spot.where('level like :level', level: "%#{params[:level]}%").all
+      if where == '' then where = 'level like :level' else where = where + ' AND level like :level' end
+      query_params[:level] = "%#{params[:level]}%"
     end
 
     unless params[:sport].nil?
-      @api_v1_spots = Api::V1::Spot.where('sport like :sport', sport: "%#{params[:sport]}%").all
+      if where == '' then where = 'sport like :sport' else where = where + ' AND sport like :sport' end
+      query_params[:sport] = "%#{params[:sport]}%"
     end
 
     unless params[:best_month].nil?
-      @api_v1_spots = Api::V1::Spot.where('best_month like :best_month', best_month: "%#{params[:best_month]}%").all
+      if where == '' then where = 'best_month like :best_month' else where = where + ' AND best_month like :best_month' end
+      query_params[:best_month] = "%#{params[:best_month]}%"
     end
 
     unless params[:rating].nil?
-      @api_v1_spots = Api::V1::Spot.where('rating like :rating', rating: "%#{params[:rating]}%").all
+      if where == '' then where = 'rating like :rating' else where = where + ' AND rating like :rating' end
+      query_params[:rating] = "%#{params[:rating]}%"
     end
 
     unless params[:country].nil?
-      @api_v1_spots = Api::V1::Spot.where('country like :country', country: "%#{params[:country]}%").all
+      if where == '' then where = 'country like :country' else where = where + ' AND country like :country' end
+      query_params[:country] = "%#{params[:country]}%"
+    end
+
+    if where == ''
+      @api_v1_spots = Api::V1::Spot.order(order).all
+    else
+      @api_v1_spots = Api::V1::Spot.where(where, query_params).order(order).all
     end
 
     paginate json: @api_v1_spots
