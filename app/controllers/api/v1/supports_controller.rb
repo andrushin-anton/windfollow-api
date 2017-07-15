@@ -24,7 +24,7 @@ class Api::V1::SupportsController < ApplicationController
 
     if @api_v1_support.save
       # send email to windfolow.com
-      SendSupportEmailJob.set(wait: 10.seconds).perform_later(@user, @api_v1_support.message)
+      SendSupportEmailJob.set(wait: 10.seconds).perform_later(@current_user, @api_v1_support.message)
       
       render json: @api_v1_support, status: :created, location: @api_v1_support
     else
