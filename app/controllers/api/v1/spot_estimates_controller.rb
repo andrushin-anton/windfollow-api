@@ -1,6 +1,6 @@
 class Api::V1::SpotEstimatesController < ApplicationController
   before_filter :authenticate_user!
-  before_action :set_api_v1_spot_estimate, only: [:show, :update, :destroy]
+  before_action :set_api_v1_spot_estimate, only: [:update, :destroy]
 
   # GET /api/v1/spot_estimates
   # GET /api/v1/spot_estimates.json
@@ -14,8 +14,13 @@ class Api::V1::SpotEstimatesController < ApplicationController
   # GET /api/v1/spot_estimates/1
   # GET /api/v1/spot_estimates/1.json
   def show
-    head :not_found
-    # render json: @api_v1_spot_estimate
+    @api_v1_spot_estimate = Api::V1::SpotEstimate.where('spot_id = ? and user_id = ?', params[:id], @current_user.id).first
+
+    unless @api_v1_spot_estimate.nil?
+      render json: @api_v1_spot_estimate
+    else
+      head :not_found  
+    end
   end
 
   # POST /api/v1/spot_estimates
