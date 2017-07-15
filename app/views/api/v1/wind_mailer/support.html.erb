@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <p>
+      Message: <%= @message %>
+    </p>
+    <strong>
+    <i>
+      From: <%= @user.first_name + ' ' + @user.last_name + ' id: ' + @user.id.to_s %>
+    </i>
+    </strong>
+  </body>
+</html>
