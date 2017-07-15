@@ -1,5 +1,5 @@
 class Api::V1::SpotSerializer < ActiveModel::Serializer
-  attributes :id, :name, :geo_lat, :geo_lon, :rating, :best_month, :wave, :level, :user_id, :country, :city, :sport, :followers, :created_at, :updated_at
+  attributes :id, :name, :geo_lat, :geo_lon, :rating, :best_month, :wave, :level, :user_id, :country, :city, :sport, :followers, :created_at, :updated_at, :meteo
 
   def rating
   	rating = object.rating.to_f
@@ -39,6 +39,14 @@ class Api::V1::SpotSerializer < ActiveModel::Serializer
 
 	def followers
 		Api::V1::UserSpot.where('spot_id = ?', object.id).count(:all)
+	end
+
+	def meteo
+		if object.meteo == 1
+			return 'true'
+		else
+			return 'false'
+		end
 	end
 
 end

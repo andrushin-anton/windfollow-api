@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170715213005) do
+ActiveRecord::Schema.define(version: 20170715222736) do
 
   create_table "api_v1_alerts", force: :cascade do |t|
     t.integer  "user_id",                 limit: 4
@@ -267,6 +267,7 @@ ActiveRecord::Schema.define(version: 20170715213005) do
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
     t.integer  "active",     limit: 4
+    t.integer  "meteo",      limit: 4
   end
 
   create_table "api_v1_supports", force: :cascade do |t|
