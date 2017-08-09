@@ -14,7 +14,9 @@ class Api::V1::FavoriteSpotsController < ApplicationController
   # GET /api/v1/favorite_spots/1
   # GET /api/v1/favorite_spots/1.json
   def show
-    head :no_content
+    @api_v1_favorite_spots = Api::V1::FavoriteSpot.where('user_id = ?', params[:id]).all
+
+    paginate json: @api_v1_favorite_spots
   end
 
   # POST /api/v1/favorite_spots
