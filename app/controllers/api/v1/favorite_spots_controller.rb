@@ -50,6 +50,13 @@ class Api::V1::FavoriteSpotsController < ApplicationController
   # PATCH/PUT /api/v1/favorite_spots/1
   # PATCH/PUT /api/v1/favorite_spots/1.json
   def update
+    @api_v1_favorite_spot = Api::V1::FavoriteSpot.where('spot_id = ? AND user_id = ? ', params[:id], @current_user.id).first
+
+    unless @api_v1_favorite_spot.nil?
+      @api_v1_favorite_spot.closed = params[:closed]
+      @api_v1_favorite_spot.save  
+    end
+
     head :no_content
   end
 
@@ -75,6 +82,6 @@ class Api::V1::FavoriteSpotsController < ApplicationController
     end
 
     def api_v1_favorite_spot_params
-      params.permit(:spot_id)
+      params.permit(:spot_id, :closed)
     end
 end
