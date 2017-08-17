@@ -22,6 +22,7 @@ class Api::V1::SensorSerializer < ActiveModel::Serializer
     result[three_hours_back] = Api::V1::SensorData.where('sensor_id = ? AND (created_at >= ? AND created_at <= ?)', object.id, four_hours_back, three_hours_back).average(:mid)
     result[two_hours_back] = Api::V1::SensorData.where('sensor_id = ? AND (created_at >= ? AND created_at <= ?)', object.id, three_hours_back, two_hours_back).average(:mid)
     result[one_hour_back] = Api::V1::SensorData.where('sensor_id = ? AND (created_at >= ? AND created_at <= ?)', object.id, two_hours_back, one_hour_back).average(:mid)
+    result[now] = Api::V1::SensorData.where('sensor_id = ? AND (created_at >= ? AND created_at <= ?)', object.id, one_hour_back, now).average(:mid)
     
     result_array << result
   end
