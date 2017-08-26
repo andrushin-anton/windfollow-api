@@ -53,7 +53,7 @@ class Api::V1::Gfs < ActiveRecord::Base
               if prev_apcp > hour.precipitation
                 hour.precipitation = 0
               else
-                hour.precipitation = (hour.precipitation - prev_apcp).round(1)
+                hour.precipitation = (hour.precipitation - prev_apcp).round(2)
               end
             end
             # set previous hour
