@@ -29,7 +29,7 @@ class Api::V1::Gfs < ActiveRecord::Base
       # current value needs to be substucted from prev
       # in every 6 hours range 
       prev_apcp = 0
-      ignore_hours = ['00', '06', '12', '18']
+      prev_hour =  nil
 
       unless @data.nil?
 
@@ -49,13 +49,15 @@ class Api::V1::Gfs < ActiveRecord::Base
           unless hour.precipitation.nil?
             temp_apcp_value = hour.precipitation
             # if this hour is not begining of a new circle
-            unless ignore_hours.include? hour.vt.strftime("%H")
+            unless Api::V1::Gfs.get_ignore_hours(prev_hour, hour.vt).include? hour.vt.strftime("%H")
               if prev_apcp > hour.precipitation
                 hour.precipitation = 0
               else
                 hour.precipitation = (hour.precipitation - prev_apcp).round(1)
               end
             end
+            # set previous hour
+            prev_hour = hour.vt
             # set previous apcp value
             prev_apcp = temp_apcp_value
           end
@@ -69,6 +71,23 @@ class Api::V1::Gfs < ActiveRecord::Base
     end
 
   end
+
+  def self.get_ignore_hours(prev_hour, current_hour)
+    ignore_hours = ['07', '13', '19', '01']
+    ignore_3_hours = ['03', '09', '15', '21']
+
+    unless prev_hour.nil?
+      # check the time difference (if more than an hour return 3 hours ignore list)
+      time_diff = current_hour - prev_hour
+      if (time_diff * 24 * 60).to_i > 80
+        # 3 hours time range
+        return ignore_3_hours
+      end
+    end
+    # by default or if time difference is less then 3 hours
+    return ignore_hours
+  end
+
 
   def self.interpolate_2_5(point)
     base_floor = point.to_f.floor
