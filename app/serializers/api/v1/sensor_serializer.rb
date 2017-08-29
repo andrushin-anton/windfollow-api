@@ -20,7 +20,7 @@ class Api::V1::SensorSerializer < ActiveModel::Serializer
       end
     end
 
-    return result
+    return result.reverse
   end
 
   def mid
