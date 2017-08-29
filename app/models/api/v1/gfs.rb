@@ -78,7 +78,7 @@ class Api::V1::Gfs < ActiveRecord::Base
 
     unless prev_hour.nil?
       # check the time difference (if more than an hour return 3 hours ignore list)
-      if ((current_hour - prev_hour) * 24 * 60).to_i > 80
+      if (current_hour.minus_with_coercion(prev_hour)).to_i > 4000
         # 3 hours time range
         return ignore_3_hours
       end
