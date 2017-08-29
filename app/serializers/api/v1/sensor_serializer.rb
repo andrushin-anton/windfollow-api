@@ -2,7 +2,25 @@ class Api::V1::SensorSerializer < ActiveModel::Serializer
   attributes :name, :slug, :geo_lat, :geo_lon, :data, :mid
 
   def data
-    Api::V1::SensorData.where('sensor_id = ? AND created_at >= ?', object.id, (1.hour.ago).to_s(:db)).order('created_at DESC').all
+    result = []
+    one_hour_ago = 1.hour.ago
+    data = Api::V1::SensorData.where('sensor_id = ? AND created_at >= ?', object.id, (one_hour_ago).to_s(:db)).order('created_at DESC').all
+
+    unless data.nil?
+      prev_data = data[0]
+      
+      for n in 0..59
+        unless data[n].nil?
+          prev_data = data[n]
+          result << data[n]
+        else
+          # fill the gap with previous data 
+          result << prev_data
+        end
+      end
+    end
+
+    return result
   end
 
   def mid
@@ -26,5 +44,4 @@ class Api::V1::SensorSerializer < ActiveModel::Serializer
     
     result_array << result
   end
-
 end
