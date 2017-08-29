@@ -4,7 +4,7 @@ class Api::V1::SensorSerializer < ActiveModel::Serializer
   def data
     result = []
     one_hour_ago = 1.hour.ago
-    data = Api::V1::SensorData.where('sensor_id = ? AND created_at >= ?', object.id, (one_hour_ago).to_s(:db)).order('created_at DESC').all
+    data = Api::V1::SensorData.where('sensor_id = ? AND created_at >= ?', object.id, (one_hour_ago).to_s(:db)).order('created_at ASC').all
 
     unless data.nil?
       prev_data = data[0]
