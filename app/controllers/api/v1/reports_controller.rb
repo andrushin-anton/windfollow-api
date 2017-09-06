@@ -89,6 +89,6 @@ class Api::V1::ReportsController < ApplicationController
     end
 
     def api_v1_report_params
-      params.permit(:spot_id, :content, :place, :wind, :direction)
+      params.permit(:spot_id, :content, :place, :wind, :direction, :geo_lat, :geo_lon)
     end
 end

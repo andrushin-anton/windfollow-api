@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170809221707) do
+ActiveRecord::Schema.define(version: 20170906214839) do
 
   create_table "api_v1_alerts", force: :cascade do |t|
     t.integer  "user_id",                 limit: 4
@@ -198,6 +198,8 @@ ActiveRecord::Schema.define(version: 20170809221707) do
     t.string   "direction",  limit: 255
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
+    t.string   "geo_lat",    limit: 255
+    t.string   "geo_lon",    limit: 255
   end
 
   create_table "api_v1_sensor_data", force: :cascade do |t|
