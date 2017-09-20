@@ -38,6 +38,8 @@ Rails.application.routes.draw do
     get  'sensors/in/:slug' => 'sensors#in'
     get  'sensors/get/:slug' => 'sensors#get'
     get  'sensors/nearest/:spot' => 'sensors#nearest'
+    get  'pages/terms' => 'pages#terms'
+    get  'pages/privacy' => 'pages#privacy'
     delete 'sport_user/:sport_id' => 'sport_user#destroy'
     delete 'spots/unsubscribe/:id' => 'spots#unsubscribe'
 
