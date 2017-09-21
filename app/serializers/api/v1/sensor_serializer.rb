@@ -10,23 +10,40 @@ class Api::V1::SensorSerializer < ActiveModel::Serializer
       prev_data = data[0]
 
       (one_hour_ago.to_datetime.to_i .. Time.now.to_datetime.to_i).step(1.minute) do |date|
-        found_data = self.find_minute_in_data(date, data)
+        found_data = self.find_minute_in_data(date, data, prev_data)
         unless found_data.nil?
+          prev_data = found_data
           result << found_data
-        else
-          result << prev_data
         end
       end
     end
     result
   end
 
-  def find_minute_in_data(needle, data)
+  def find_minute_in_data(needle, data, prev_minute)
     data.each do |date|
-      if date.created_at.strftime('%H:%M') == needle.to_datetime.strftime('%H:%M')
+      if date.created_at.strftime('%H:%M') == Time.at(needle).strftime('%H:%M')
         return date
       end
     end
+    new_minute = Api::V1::SensorData.new
+    new_minute.created_at = Time.at(needle).to_datetime
+    new_minute.updated_at = Time.at(needle).to_datetime
+    new_minute.id = prev_minute.id
+    new_minute.sensor_id = prev_minute.sensor_id
+    new_minute.wind = prev_minute.wind
+    new_minute.mid = prev_minute.mid
+    new_minute.lwind = prev_minute.lwind
+    new_minute.dir = prev_minute.dir
+    new_minute.temp1 = prev_minute.temp1
+    new_minute.temp2 = prev_minute.temp2
+    new_minute.h = prev_minute.h
+    new_minute.p = prev_minute.p
+    new_minute.dew_point = prev_minute.dew_point
+    new_minute.alarm = prev_minute.alarm
+    new_minute.u_out = prev_minute.u_out
+
+    new_minute
   end
 
   def mid
