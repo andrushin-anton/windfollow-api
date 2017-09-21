@@ -23,7 +23,7 @@ class Api::V1::SensorSerializer < ActiveModel::Serializer
 
   def find_minute_in_data(needle, data)
     data.each do |date|
-      if date.strftime('%H:%M') == needle.strftime('%H:%M')
+      if date.created_at.strftime('%H:%M') == needle.strftime('%H:%M')
         return date
       end
     end
