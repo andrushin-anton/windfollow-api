@@ -22,13 +22,13 @@ class Api::V1::SensorSerializer < ActiveModel::Serializer
 
   def find_minute_in_data(needle, data, prev_minute)
     data.each do |date|
-      if date.created_at.strftime('%H:%M') == Time.at(needle).strftime('%H:%M')
+      if date.created_at.strftime('%H:%M') == Time.zone.at(needle).in_time_zone.strftime('%H:%M')
         return date
       end
     end
     new_minute = Api::V1::SensorData.new
-    new_minute.created_at = Time.at(needle).to_datetime
-    new_minute.updated_at = Time.at(needle).to_datetime
+    new_minute.created_at = Time.zone.at(needle).to_datetime
+    new_minute.updated_at = Time.zone.at(needle).to_datetime
     new_minute.id = prev_minute.id
     new_minute.sensor_id = prev_minute.sensor_id
     new_minute.wind = prev_minute.wind
