@@ -8,19 +8,25 @@ class Api::V1::SensorSerializer < ActiveModel::Serializer
 
     unless data.nil?
       prev_data = data[0]
-      
-      for n in 0..59
-        unless data[n].nil?
-          prev_data = data[n]
-          result << data[n]
+
+      (one_hour_ago.to_datetime.to_i .. Time.now.to_datetime.to_i).step(1.minute) do |date|
+        found_data = self.find_minute_in_data(date, data)
+        unless found_data.nil?
+          result << found_data
         else
-          # fill the gap with previous data 
           result << prev_data
         end
       end
     end
+    result
+  end
 
-    return result.reverse
+  def find_minute_in_data(needle, data)
+    data.each do |date|
+      if date.strftime('%H:%M') == needle.strftime('%H:%M')
+        return date
+      end
+    end
   end
 
   def mid
