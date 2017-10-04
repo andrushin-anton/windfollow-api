@@ -42,9 +42,11 @@ class Api::V1::SpotSerializer < ActiveModel::Serializer
 	end
 
 	def meteo
+		geo_lat = "%0.2f" % object.geo_lat.to_f
+		geo_lon = "%0.2f" % object.geo_lon.to_f
 		query_params = {}
-		query_params[:geo_lat] = "%#{object.geo_lat.to_f.round(1).to_s}%"
-		query_params[:geo_lon] = "%#{object.geo_lon.to_f.round(1).to_s}%"
+		query_params[:geo_lat] = "%#{geo_lat.to_s}%"
+		query_params[:geo_lon] = "%#{geo_lon.to_s}%"
 		sensor = Api::V1::Sensor.where('geo_lat LIKE :geo_lat AND geo_lon LIKE :geo_lon', query_params).first
 		unless sensor.nil?
 			return 'true'
