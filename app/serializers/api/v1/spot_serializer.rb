@@ -42,8 +42,8 @@ class Api::V1::SpotSerializer < ActiveModel::Serializer
 	end
 
 	def meteo
-		geo_lat = "%0.2f" % object.geo_lat.to_f
-		geo_lon = "%0.2f" % object.geo_lon.to_f
+		geo_lat = (object.geo_lat.to_f * 100).floor / 100.0
+		geo_lon = (object.geo_lon.to_f * 100).floor / 100.0
 		query_params = {}
 		query_params[:geo_lat] = "%#{geo_lat.to_s}%"
 		query_params[:geo_lon] = "%#{geo_lon.to_s}%"
