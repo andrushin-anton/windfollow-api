@@ -40,6 +40,8 @@ set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle public/sys
 
 set :delayed_job_pid_dir, '/tmp'
 
+set :whenever_roles, ->{[:web, :app]}
+
 namespace :deploy do
 
   desc 'Restart application'

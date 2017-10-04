@@ -9,6 +9,8 @@ require 'capistrano/rails'
 require 'capistrano/rbenv'
 require 'capistrano/delayed_job'
 
+require 'whenever/capistrano'
+
 set :rbenv_ruby, '2.3.1'
 
 
