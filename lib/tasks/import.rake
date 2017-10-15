@@ -387,4 +387,31 @@ namespace :scraper do
 		end
 		puts 'Saved friends'
 	end
+
+	task spot_names: :environment do
+		require 'open-uri'
+		require 'json'
+
+		# Prepare API request
+		uri = URI.parse('http://www.gdeduet.ru/api/everything/22042016/spots')
+
+		# Submit request
+		result = JSON.parse(open(uri).read)
+
+
+		result.each do |spot|
+
+			if spot['id'].to_i <= 431
+				windfollow_spot = Api::V1::Spot.find(spot['id'].to_i)
+
+				unless windfollow_spot.nil?
+					if windfollow_spot.name == '' || windfollow_spot.name == nil?
+						Api::V1::Spot.where('id = ?', spot['id'].to_i).update_all(name: spot['name'])
+					end
+				end
+			end
+
+		end
+		puts 'Updated spots'
+	end
 end
