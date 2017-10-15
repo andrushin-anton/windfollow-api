@@ -52,8 +52,9 @@ class Api::V1::SpotsController < ApplicationController
     end
 
     if where == ''
-      @api_v1_spots = Api::V1::Spot.order(order).all
+      @api_v1_spots = Api::V1::Spot.where('active = 1').order(order).all
     else
+      where = where + ' AND active = 1'
       @api_v1_spots = Api::V1::Spot.where(where, query_params).order(order).all
     end
 
@@ -122,7 +123,7 @@ class Api::V1::SpotsController < ApplicationController
   private
 
     def set_api_v1_spot
-      @api_v1_spot = Api::V1::Spot.find(params[:id])
+      @api_v1_spot = Api::V1::Spot.where('id = ? AND active = 1', params[:id]).first
     end
 
     def api_v1_spot_params
