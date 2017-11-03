@@ -17,6 +17,7 @@ class Api::V1::Spot < ActiveRecord::Base
 
   def default_values
     self.rating ||= 0
+    self.active = 1
 
     # places
     unless self.place.nil?
