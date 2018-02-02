@@ -1,8 +1,8 @@
 # config valid only for Capistrano 3.1
 lock '3.4.1'
 
-set :application, 'windfollow'
-set :repo_url, 'git@bitbucket.org:andrushin-anton/windfollow.git'
+set :application, 'windfollow-api'
+set :repo_url, 'git@github.com:andrushin-anton/windfollow-api.git'
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
