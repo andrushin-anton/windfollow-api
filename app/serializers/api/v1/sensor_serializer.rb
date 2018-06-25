@@ -3,17 +3,19 @@ class Api::V1::SensorSerializer < ActiveModel::Serializer
 
   def data
     result = []
-    one_hour_ago = Time.current - 2.hours
+    one_hour_ago = Time.current - 1.hour
     data = Api::V1::SensorData.where('sensor_id = ? AND created_at >= ?', object.id, (one_hour_ago).to_s(:db)).order('created_at DESC').all
 
     unless data.nil?
       prev_data = data[0]
 
-      (one_hour_ago.to_datetime.to_i .. Time.current.to_datetime.to_i).step(1.minute) do |date|
-        found_data = self.find_minute_in_data(date, data, prev_data)
-        unless found_data.nil?
-          prev_data = found_data
-          result << found_data
+      unless prev_data.nil?
+        (one_hour_ago.to_datetime.to_i .. Time.current.to_datetime.to_i).step(1.minute) do |date|
+          found_data = self.find_minute_in_data(date, data, prev_data)
+          unless found_data.nil?
+            prev_data = found_data
+            result << found_data
+          end
         end
       end
     end
