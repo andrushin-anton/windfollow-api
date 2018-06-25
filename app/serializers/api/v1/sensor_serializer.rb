@@ -3,7 +3,7 @@ class Api::V1::SensorSerializer < ActiveModel::Serializer
 
   def data
     result = []
-    one_hour_ago = Time.current - 1.hour
+    one_hour_ago = Time.current - 2.hours
     data = Api::V1::SensorData.where('sensor_id = ? AND created_at >= ?', object.id, (one_hour_ago).to_s(:db)).order('created_at DESC').all
 
     unless data.nil?
