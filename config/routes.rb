@@ -48,6 +48,8 @@ Rails.application.routes.draw do
     get  'conversations/:conversation_id/messages' => 'messages#index'
     post 'conversations' => 'conversations#create'
     post 'conversations/:conversation_id/messages' => 'messages#create'
+
+    get  'support/status' => 'supports#status'
     end
   end
 

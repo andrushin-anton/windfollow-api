@@ -2,6 +2,11 @@ class Api::V1::SupportsController < ApplicationController
   before_filter :authenticate_user!
   before_action :set_api_v1_support, only: [:show, :update, :destroy]
 
+
+  def status
+    render json: {its: :ok}
+  end
+
   # GET /api/v1/supports
   # GET /api/v1/supports.json
   def index
