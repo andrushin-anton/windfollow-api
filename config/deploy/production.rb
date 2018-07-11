@@ -37,3 +37,4 @@ server '185.50.24.30', user: 'deploy', roles: %w{web app}, my_property: :my_valu
 #     # password: 'please use keys'
 #   }
 # setting per server overrides global ssh_options
+set :branch, 'master'
