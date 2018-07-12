@@ -38,7 +38,8 @@ class Api::V1::SpotSerializer < ActiveModel::Serializer
   end
 
 	def followers
-		Api::V1::UserSpot.where('spot_id = ?', object.id).count(:all)
+		#Api::V1::UserSpot.where('spot_id = ?', object.id).count(:all)
+		Api::V1::FavoriteSpot.where('spot_id = ?', object.id).count(:all)
 	end
 
 	def meteo
