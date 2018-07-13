@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   namespace :api do
   namespace :v1 do
     post 'auth/token'
+    post 'auth/token/facebook' => 'auth#facebook'
     post 'users/password_refresh'
     post 'sport_user' => 'sport_user#create'
     put  'profile' => 'profile#update'
