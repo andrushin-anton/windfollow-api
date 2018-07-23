@@ -5,7 +5,7 @@ class Api::V1::NotificationsController < ApplicationController
   # GET /api/v1/notifications
   # GET /api/v1/notifications.json
   def index
-    @api_v1_notifications = Api::V1::Notification.where('user_id = ?', @current_user.id).all
+    @api_v1_notifications = Api::V1::Notification.where('user_id = ?', @current_user.id).order('created_at DESC').all
 
     paginate json: @api_v1_notifications
   end
