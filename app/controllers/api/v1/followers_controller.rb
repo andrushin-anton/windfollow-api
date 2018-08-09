@@ -15,7 +15,7 @@ class Api::V1::FollowersController < ApplicationController
   def show
     user = Api::V1::User.find(params[:id])
     unless user.nil?
-      render json: user.followers.all    
+      render json: user.followings.all
     end
   end
 
