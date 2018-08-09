@@ -26,6 +26,15 @@ class Api::V1::FollowersController < ApplicationController
     @api_v1_follower.follower_id = @current_user.id
 
     if @api_v1_follower.save
+
+      # create new notification
+      notification = Api::V1::Notification.new
+      notification.user_id = @api_v1_follower.user_id
+      notification.event_type = Api::V1::Notification::TYPE_NEW_FOLLOWER
+      notification.content = { :event_user_id => @current_user.id, :event_user_name => @current_user.first_name + ' ' + @current_user.last_name, :event_user_avatar => @current_user.formated_avatar }.to_json
+      notification.event_object_id = @api_v1_follower.user_id
+      notification.save
+
       render json: @api_v1_follower, status: :created, location: @api_v1_follower
     else
       render json: @api_v1_follower.errors, status: :unprocessable_entity
