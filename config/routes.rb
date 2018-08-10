@@ -37,6 +37,7 @@ Rails.application.routes.draw do
     get  'feed/:user_id' => 'reports#feed'
     get  'spots/:id/feed' => 'spots#feed'
     get  'sensors/in/:slug' => 'sensors#in'
+    get  'sensors/duna' => 'sensors#duna'
     get  'sensors/get/:slug' => 'sensors#get'
     get  'sensors/nearest/:spot' => 'sensors#nearest'
     get  'pages/terms' => 'pages#terms'

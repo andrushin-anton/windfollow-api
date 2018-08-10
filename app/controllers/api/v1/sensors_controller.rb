@@ -29,6 +29,32 @@ class Api::V1::SensorsController < ApplicationController
     end
 
   end
+
+  def duna
+    @sensor = Api::V1::Sensor.where('slug = ?', 'duna').first
+    unless @sensor.nil?
+      # Save incoming data
+      sensor_data = Api::V1::SensorData.new
+      sensor_data.sensor_id = @sensor.id
+      sensor_data.wind      = params[:wmax]
+      sensor_data.mid       = params[:wmid]
+      sensor_data.lwind     = params[:wmin]
+      sensor_data.dir       = params[:dir]
+      sensor_data.temp1     = params[:temp]
+      sensor_data.temp2     = params[:temp]
+      sensor_data.h         = params[:h]
+      sensor_data.p         = 0
+      sensor_data.dew_point = 0
+      sensor_data.alarm     = 0
+      sensor_data.u_out     = 0
+
+      sensor_data.save
+
+      render json:  { message: 'data was saved' }, status: 200
+    else
+      render json:  { error: 'sensor not found' }, status: 404
+    end
+  end
   
   def in
     @sensor = Api::V1::Sensor.where('slug = ?', params[:slug]).first

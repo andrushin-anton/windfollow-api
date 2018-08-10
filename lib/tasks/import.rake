@@ -195,6 +195,7 @@ namespace :scraper do
 		puts 'Saved report likes'
 	end
 
+  # DO NOT IMPORT!!!
 	task user_photos: :environment do
 		require 'open-uri'
 		require 'json'
