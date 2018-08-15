@@ -24,6 +24,7 @@ class Api::V1::FollowersController < ApplicationController
   def create
     @api_v1_follower = Api::V1::Follower.new(api_v1_follower_params)
     @api_v1_follower.follower_id = @current_user.id
+    @api_v1_follower.user_id = params[:user_id]
 
     if @api_v1_follower.save
 
