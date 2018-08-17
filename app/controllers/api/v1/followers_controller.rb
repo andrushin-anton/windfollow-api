@@ -22,23 +22,30 @@ class Api::V1::FollowersController < ApplicationController
   # POST /api/v1/followers
   # POST /api/v1/followers.json
   def create
-    @api_v1_follower = Api::V1::Follower.new(api_v1_follower_params)
-    @api_v1_follower.follower_id = @current_user.id
-    @api_v1_follower.user_id = params[:user_id]
+    follow_exists = Api::V1::Follower.where('follower_id =? and user_id =?', @current_user.id, params[:id]).first
 
-    if @api_v1_follower.save
+    if follow_exists.nil?
+      # Follower doesn't exists
+      @api_v1_follower = Api::V1::Follower.new(api_v1_follower_params)
+      @api_v1_follower.follower_id = @current_user.id
+      @api_v1_follower.user_id = params[:user_id]
 
-      # create new notification
-      notification = Api::V1::Notification.new
-      notification.user_id = @api_v1_follower.user_id
-      notification.event_type = Api::V1::Notification::TYPE_NEW_FOLLOWER
-      notification.content = { :event_user_id => @current_user.id, :event_user_name => @current_user.first_name + ' ' + @current_user.last_name, :event_user_avatar => @current_user.formated_avatar }.to_json
-      notification.event_object_id = @api_v1_follower.user_id
-      notification.save
+      if @api_v1_follower.save
 
-      render json: @api_v1_follower, status: :created, location: @api_v1_follower
+        # create new notification
+        notification = Api::V1::Notification.new
+        notification.user_id = @api_v1_follower.user_id
+        notification.event_type = Api::V1::Notification::TYPE_NEW_FOLLOWER
+        notification.content = { :event_user_id => @current_user.id, :event_user_name => @current_user.first_name + ' ' + @current_user.last_name, :event_user_avatar => @current_user.formated_avatar }.to_json
+        notification.event_object_id = @api_v1_follower.user_id
+        notification.save
+
+        render json: @api_v1_follower, status: :created, location: @api_v1_follower
+      else
+        render json: @api_v1_follower.errors, status: :unprocessable_entity
+      end
     else
-      render json: @api_v1_follower.errors, status: :unprocessable_entity
+      render json: { error: 'already following' }, status: 401
     end
   end
 
