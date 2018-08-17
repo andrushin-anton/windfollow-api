@@ -22,7 +22,7 @@ class Api::V1::FollowersController < ApplicationController
   # POST /api/v1/followers
   # POST /api/v1/followers.json
   def create
-    follow_exists = Api::V1::Follower.where('follower_id =? and user_id =?', @current_user.id, params[:id]).first
+    follow_exists = Api::V1::Follower.where('follower_id =? and user_id =?', @current_user.id, params[:user_id]).first
 
     if follow_exists.nil?
       # Follower doesn't exists
