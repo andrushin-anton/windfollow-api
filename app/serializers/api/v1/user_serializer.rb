@@ -12,11 +12,11 @@ class Api::V1::UserSerializer < ActiveModel::Serializer
   end
 
   def followers
-  	object.followers.count(:all)
+  	object.followings.count(:all)
   end
 
   def followings
-  	object.followings.count(:all)
+  	object.followers.count(:all)
   end
 
   def reports
