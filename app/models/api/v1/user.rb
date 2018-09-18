@@ -102,6 +102,7 @@ class Api::V1::User < ActiveRecord::Base
   def password_refresh
     new_password = rand(0..9).to_s+''+rand(0..9).to_s+''+rand(0..9).to_s+''+rand(0..9).to_s+''+rand(0..9).to_s+''+rand(0..9).to_s+''
     self.password = new_password
+    encrypt_password()
     return new_password
   end
 
